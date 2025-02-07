@@ -906,13 +906,13 @@ if __name__ == "__main__":
             )
         elif "slurm" in args.executor:
             cluster = SLURMCluster(
-                queue="all",
+                queue="standard",
                 cores=args.workers,
                 processes=args.scaleout,
                 memory=f"{args.memory}GB",
-                disk=f"{args.disk}GB",
-                retries=args.retries,
-                walltime="00:30:00",
+                # disk=f"{args.disk}GB",
+                # retries=args.retries,
+                walltime="02:00:00",
                 job_script_prologue=job_script_prologue,
             )
         elif "condor" in args.executor:
@@ -937,6 +937,7 @@ if __name__ == "__main__":
             client.upload_file("workflows.zip")
         else:
             cluster.adapt(minimum=args.scaleout)
+            # cluster.adapt(maximum=50)
             client = Client(cluster)
             print("Waiting for at least one worker...")
             client.wait_for_workers(1)
