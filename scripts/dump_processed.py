@@ -12,13 +12,21 @@ def dump_lumi(output, fname):
             lumi.extend(output[m][f]["lumi"].value)
             run.extend(output[m][f]["run"].value)
 
-    lumi, run = np.array(sorted(lumi)), np.array(sorted(run))
+    # Sort runs and keep lumisections matched
+    run = np.array(run)
+    lumi = np.array(lumi)
+    sorted_indices = np.lexsort((lumi, run))  # Sort by run first, then lumi
+    run = run[sorted_indices]
+    lumi = lumi[sorted_indices]
+    # Create dictionary with ls values for each run
     dicts = {}
-    for r in list(set(run)):
-        dicts[str(r)] = lumi[r == run]
+    for r in np.unique(run):
+        dicts[str(r)] = lumi[run == r]
+
+    # Convert to format for brilcalc
     for r in dicts.keys():
-        ar = ak.singletons(ak.Array(dicts[r]))
-        ars = ak.concatenate([ar, ar], axis=-1)
+        ar = ak.singletons(ak.Array(dicts[r]))  
+        ars = ak.concatenate([ar, ar], axis=-1)  
         dicts[r] = ak.values_astype(ars, int).tolist()
 
     with open(f"{fname}_lumi.json", "w") as outfile:
