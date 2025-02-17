@@ -343,7 +343,7 @@ class NanoProcessor(processor.ProcessorABC):
         sz = shmu + ssmu
         sw = shmu + smet
 
-        osss = 1
+        osss = shmu.charge * ssmu.charge * -1
         ossswrite = shmu.charge * ssmu.charge * -1
         smuon_jet_passc = {}
         c_algos = []
