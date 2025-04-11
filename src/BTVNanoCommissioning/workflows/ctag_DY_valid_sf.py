@@ -77,9 +77,7 @@ class NanoProcessor(processor.ProcessorABC):
             raise ValueError(self.selMod, "is not a valid selection modifier.")
 
         histname = {"DYM": "ctag_DY_sf", "DYE": "ectag_DY_sf"}
-        output = (
-            {"": None} if self.noHist else histogrammer(events, histname[self.selMod])
-        )
+        output = {} if self.noHist else histogrammer(events, histname[self.selMod])
 
         if isRealData:
             output["sumw"] = len(events)

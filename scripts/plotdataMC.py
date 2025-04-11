@@ -117,7 +117,7 @@ if not any(".coffea" in o for o in output.keys()):
         mergemap = sample_mergemap
     mergemap["data"] = [m for m in output.keys() if "Run" in m]
     mergemap["mc"] = [m for m in output.keys() if "Run" not in m]
-    mergemap["mc"].remove("WtoLNu-4Jets_TuneCP5_13p6TeV_madgraphMLM-pythia8")
+    #mergemap["mc"].remove("WtoLNu-4Jets_TuneCP5_13p6TeV_madgraphMLM-pythia8")
 else:
     datalist = []
     mclist = []
@@ -128,7 +128,7 @@ else:
         mergemap = sample_mergemap
     mergemap["mc"] = mclist
     mergemap["data"] = datalist
-    mergemap["mc"].remove("WtoLNu-4Jets_TuneCP5_13p6TeV_madgraphMLM-pythia8")
+    #mergemap["mc"].remove("WtoLNu-4Jets_TuneCP5_13p6TeV_madgraphMLM-pythia8")
 
 collated = collate(output, mergemap)
 collated = {
@@ -344,7 +344,7 @@ for index, discr in enumerate(var_set):
             yerr=True,
             ax=ax,
             flow=args.flow,
-            **color_config,
+            #**color_config,
         )
         hep.histplot(
             collated["mc"][discr][noSF_axis],
@@ -433,7 +433,7 @@ for index, discr in enumerate(var_set):
             yerr=True,
             ax=ax,
             flow=args.flow,
-            **color_config,
+            #**color_config,
         )
         hep.histplot(
             collated["data"][discr][noSF_axis],
@@ -487,7 +487,7 @@ for index, discr in enumerate(var_set):
             yerr=True,
             ax=ax,
             flow=args.flow,
-            **color_config,
+            #**color_config,
         )
         hep.histplot(
             collated["data"][discr][allaxis],

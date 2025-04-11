@@ -924,7 +924,7 @@ if __name__ == "__main__":
                 memory=f"{args.memory}GB",
                 # disk=f"{args.disk}GB",
                 # retries=args.retries,
-                walltime="00:60:00",
+                walltime="04:00:00",
                 death_timeout=300,
                 log_directory="logs_dask",
                 job_script_prologue=job_script_prologue,
@@ -953,7 +953,7 @@ if __name__ == "__main__":
             if "brux" in args.executor:
                 cluster.adapt(minimum=args.scaleout, maximum=336)
             else:
-                cluster.adapt(minimum=args.scaleout, maximum=336)
+                cluster.adapt(minimum=args.scaleout, maximum=100)
             client = Client(cluster)
             print("Waiting for at least one worker...")
             client.wait_for_workers(1)

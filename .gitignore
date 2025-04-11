@@ -1,5 +1,6 @@
 *.coffea
 *.pyc
+*.root
 
 *.py~
 .ipynb_checkpoints/
@@ -20,3 +21,6 @@ dask-worker-space/
 .job_wrapper_failure
 jobs_*
 .success
+*.err
+*.out
+*.png

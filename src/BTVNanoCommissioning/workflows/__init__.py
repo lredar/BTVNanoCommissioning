@@ -88,6 +88,7 @@ workflows["ctag_Wc_WP_sf"] = partial(
 workflows["ectag_Wc_WP_sf"] = partial(
     CTAGWcTTValidSFProcessor, selectionModifier="cutbased_WcE"
 )
+workflows["ectag_Wc_sf_2DCalib"] = partial(CTAGWcTTValidSFProcessor, selectionModifier="WcE") #custom sample list
 
 # DY
 workflows["ctag_DY_sf"] = partial(CTAGDYValidSFProcessor, selectionModifier="DYM")
