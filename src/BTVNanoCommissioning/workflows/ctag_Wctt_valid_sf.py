@@ -10,7 +10,7 @@ from BTVNanoCommissioning.utils.correction import (
     weight_manager,
     common_shifts,
 )
-from BTVNanoCommissioning.helpers.func import update, dump_lumi, PFCand_link, flatten
+from BTVNanoCommissioning.helpers.func import update, dump_lumi, PFCand_link, flatten, add_discriminators
 from BTVNanoCommissioning.helpers.update_branch import missing_branch
 from BTVNanoCommissioning.utils.histogrammer import histogrammer, histo_writter
 from BTVNanoCommissioning.utils.array_writer import array_writer
@@ -98,6 +98,8 @@ class NanoProcessor(processor.ProcessorABC):
             "WcE": "ectag_Wc_sf",
             "cutbased_WcM": "ctag_cutbased_Wc_sf",
             "cutbased_WcE": "ectag_cutbased_Wc_sf",
+            "WcM_2Dcalib" : "ctag_Wc_sf_2Dcalib",
+            "WcE_2Dcalib" : "ctag_Wc_sf_2Dcalib",
             "semittM": "ctag_Wc_sf",  # same histogram representation as W+c, since only nJet is different
             "semittE": "ectag_Wc_sf",  # same histogram representation as W+c, since only nJet is different
             "WcM_noMuVeto": "ctag_Wc_sf",
@@ -349,7 +351,7 @@ class NanoProcessor(processor.ProcessorABC):
         sz = shmu + ssmu
         sw = shmu + smet
 
-        osss = 1
+        osss = shmu.charge * ssmu.charge * -1
         ossswrite = shmu.charge * ssmu.charge * -1
         smuon_jet_passc = {}
         c_algos = []
@@ -375,7 +377,7 @@ class NanoProcessor(processor.ProcessorABC):
         # Keep the structure of events and pruned the object size
         pruned_ev = events[event_level]
         pruned_ev["SelJet"] = sjets
-        if self.selMod.endswith("M"):
+        if self.selMod.endswith("M") or self.selMod == "WcM_2Dcalib":
             pruned_ev["SelMuon"] = shmu
         else:
             pruned_ev["SelElectron"] = shmu
@@ -428,6 +430,13 @@ class NanoProcessor(processor.ProcessorABC):
             genflavor = ak.ones_like(pruned_ev.SelJet.pt, dtype=int)
             if "MuonJet" in pruned_ev.fields:
                 smflav = ak.ones_like(pruned_ev.MuonJet.pt, dtype=int)
+
+        if "2Dcalib" in self.selMod:
+            taggers =  ["DeepFlav", "PNet", "RobustParTAK4"]
+            for tagger in taggers:
+                pruned_ev["MuonJet"] = add_discriminators(pruned_ev["MuonJet"], tagger)
+                smuon_jet = add_discriminators(smuon_jet, tagger)
+            
         ####################
         # Weight & Geninfo #
         ####################
@@ -532,7 +541,8 @@ class NanoProcessor(processor.ProcessorABC):
                     for i in range(2):
                         if (
                             str(i) not in histname
-                            or histname.replace(f"_{i}", "") not in events.Jet.fields
+                            or histname.replace(f"_{i}", "")
+                            not in smuon_jet.fields
                         ):
                             continue
                         h.fill(
