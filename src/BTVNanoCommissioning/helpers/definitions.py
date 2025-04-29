@@ -3,15 +3,27 @@
 
 disc_list = [
     "btagDeepFlavB",
+    "btagDeepFlavprobudsg",
     "btagDeepFlavC",
     "btagDeepFlavCvL",
     "btagDeepFlavCvB",
+    "btagDeepFlavBvC",
+    "btagDeepFlavBvCt",
+    "btagDeepFlavHFvLF",
+    "btagDeepFlavHFvLFt",
     "btagDeepFlavB_b",
     "btagDeepFlavB_bb",
+    "btagPNetprobc",
+    "btagPNetprobudsg",
+    "btagPNetprobbc",
     "btagPNetB",
     "btagPNetCvB",
+    "btagPNetBvC",
+    "btagPNetBvCt",
     "btagPNetCvL",
     "btagPNetCvNotB",
+    "btagPNetHFvLF",
+    "btagPNetHFvLFt",
     "btagPNetProbB",
     "btagPNetProbC",
     "btagPNetProbG",
@@ -28,10 +40,28 @@ disc_list = [
     "btagRobustParTAK4CvB",
     "btagRobustParTAK4CvL",
     "btagRobustParTAK4QG",
+    "btagRobustParTAK4probudsg",
+    "btagRobustParTAK4probc",
+    "btagRobustParTAK4probbc",
+    "btagRobustParTAK4BvC",
+    "btagRobustParTAK4BvCt",
+    "btagRobustParTAK4HFvLF",
+    "btagRobustParTAK4HFvLFt",
     "btagUParTAK4B",
+    "btagUParTAK4UDG",
+    "btagUParTAK4probs",
+    "btagUParTAK4SvUDG",
+    "btagUParTAK4probudsg", # Not needed with UParT v2
+    "btagUParTAK4probc",
+    "btagUParTAK4probbc", # Not needed with UParT v2
+    "btagUParTAK4probbbblepb",
     "btagUParTAK4CvL",
     "btagUParTAK4CvB",
+    "btagUParTAK4BvC",
+    "btagUParTAK4BvCt",
     "btagUParTAK4CvNotB",
+    "btagUParTAK4HFvLF",
+    "btagUParTAK4HFvLFt",
     "btagUParTAK4QvG",
     "btagUParTAK4TauVJet",
     ## Negative tagger
@@ -6395,6 +6425,14 @@ def axes_name(var):
             unit = unit + " CvL"
         elif "CvB" in var:
             unit = unit + " CvB"
+        elif "BvCt" in var:
+            unit = unit + " BvCt"
+        elif "BvC" in var:
+            unit = unit + " BvC"
+        elif "HFvLt" in var:
+            unit = unit + " HFvLFt"
+        elif "HFvLF" in var:
+            unit = unit + " HFvLF"
         elif "CvNotB" in var:
             unit = unit + " CvNotB"
         elif "B_b" in var or "ProbB" in var:
@@ -6409,13 +6447,15 @@ def axes_name(var):
             unit = unit + " QvG"
         elif "G" in var:
             unit = unit + " Prob(g)"
+        elif "UDSG" in var or "udsg" in var:
+            unit = unit + " Prob(udsg)"
         elif "UDS" in var:
             unit = unit + " Prob(uds)"
         elif "TauVJet" in var:
             unit = unit + " $\\tau$vJ"
         elif "B" in var:
             unit = unit + " BvAll"
-        elif "C" in var:
+        elif "C" in var or "c" in var:
             unit = unit + " Prob(c)"
         elif "PNetReg" in var:
             unit = "Jet PNet Reg."

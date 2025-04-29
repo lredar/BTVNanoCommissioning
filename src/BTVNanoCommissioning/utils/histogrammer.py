@@ -175,7 +175,7 @@ def histogrammer(events, workflow, year="2022", campaign="Summer22"):
             Hist.storage.Weight(),
         )
 
-    elif "ttdilep_sf" == workflow:
+    elif workflow in ("ttdilep_sf", "ttdilep_sf_2Dcalib"):
         obj_list = ["mu", "ele"]
         for i in range(2):
             obj_list.append(f"jet{i}")
@@ -576,8 +576,17 @@ def histogrammer(events, workflow, year="2022", campaign="Summer22"):
     #     )
     ### discriminators
     for disc in disc_list:
-        if disc not in events.Jet.fields:
-            continue
+        if "TT1L" and "2Dcalib" not in workflow:
+            if disc not in events.Jet.fields:
+                continue
+        else:
+            if (
+                disc not in events.Jet.fields and
+                "BvC" not in disc and "HFvLF" not in disc and
+                "probs" not in disc and "probbbblepb" not in disc and # Needed for UParT v2
+                "probc" not in disc and "probudsg" not in disc and "probbc" not in disc
+            ):
+                continue
         njet = 1
         if "ttdilep_sf" in workflow:
             njet = 2
@@ -710,7 +719,7 @@ def histo_writter(pruned_ev, output, weights, systematics, isSyst, SF_map):
     # define Jet flavor
 
     # Reduce the jet to the correct dimension in the plot
-    nj = 4 if "jet4" in output.keys() else 2 if "jet2" in output.keys() else 1
+    nj = 4 if any("jet3" in k for k in output.keys()) else 2 if any("jet1" in k for k in output.keys()) else 1
     pruned_ev.SelJet = pruned_ev.SelJet if nj == 1 else pruned_ev.SelJet[:, :nj]
     if "var" in str(ak.type(pruned_ev.SelJet.pt)) and nj == 1:
         pruned_ev.SelJet = pruned_ev.SelJet[:, 0]
@@ -927,7 +936,10 @@ def histo_writter(pruned_ev, output, weights, systematics, isSyst, SF_map):
                     flavs, seljets = genflavor, pruned_ev.SelJet
 
                 for i in range(nj):
-                    if not histname.endswith(str(i)):
+                    if (
+                        not histname.endswith(str(i))
+                        or histname.replace(f"_{i}", "") not in seljets.fields
+                    ):
                         continue
                     if nj > 1:
                         flav, seljet = flavs[:, i], seljets[:, i]

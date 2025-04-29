@@ -13,7 +13,7 @@ from BTVNanoCommissioning.utils.correction import (
 )
 
 # user helper function
-from BTVNanoCommissioning.helpers.func import flatten, update, dump_lumi, PFCand_link
+from BTVNanoCommissioning.helpers.func import flatten, update, dump_lumi, PFCand_link, add_discriminators
 from BTVNanoCommissioning.helpers.update_branch import missing_branch
 
 ## load histograms & selctions for this workflow
@@ -38,6 +38,7 @@ class NanoProcessor(processor.ProcessorABC):
         isArray=False,
         noHist=False,
         chunksize=75000,
+        selectionModifier="tt_dilep",
     ):
         self._year = year
         self._campaign = campaign
@@ -47,6 +48,7 @@ class NanoProcessor(processor.ProcessorABC):
         self.noHist = noHist
         self.lumiMask = load_lumi(self._campaign)
         self.chunksize = chunksize
+        self.selMod = selectionModifier
         ## Load corrections
         self.SF_map = load_SF(self._year, self._campaign)
 
@@ -68,7 +70,10 @@ class NanoProcessor(processor.ProcessorABC):
         dataset = events.metadata["dataset"]
         isRealData = not hasattr(events, "genWeight")
         ## Create histograms
-        output = {} if self.noHist else histogrammer(events, "ttdilep_sf")
+        if self.selMod == "ttdilep_sf_2Dcalib":
+            output = {} if self.noHist else histogrammer(events, "ttdilep_sf_2Dcalib")
+        else:
+            output = {} if self.noHist else histogrammer(events, "ttdilep_sf")
 
         if shift_name is None:
             if isRealData:
@@ -176,6 +181,11 @@ class NanoProcessor(processor.ProcessorABC):
         # Find the PFCands associate with selected jets. Search from jetindex->JetPFCands->PFCand
         if "PFCands" in events.fields:
             pruned_ev.PFCands = PFCand_link(events, event_level, jetindx)
+
+        if self.selMod == "ttdilep_sf_2Dcalib":
+            taggers =  ["DeepFlav", "PNet", "RobustParTAK4"]
+            for tagger in taggers:
+                pruned_ev["SelJet"] = add_discriminators(pruned_ev["SelJet"], tagger)
 
         ####################
         #     Output       #

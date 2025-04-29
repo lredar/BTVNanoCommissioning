@@ -260,3 +260,85 @@ def uproot_writeable(events, include=["events", "run", "luminosityBlock"]):
             if bool(b_nest):
                 ev[bname] = ak.zip(b_nest)
     return ev
+
+def add_discriminators(jets, tagger):
+    """
+    Computes additional discriminators for a given jet collection.
+
+    Parameters:
+    - jets: awkward.Array representing the jet collection (e.g. events.Jet, pruned_ev.SelJet)
+    - tagger: str, "DeepFlav", "PNet", "RobustParTAK4", "UParTAK4" or "UParTAK4_v2"
+
+    Returns:
+    - updated jets: ["BvC", "BvCt", "HFvsLFt", "HFvsLF", "probc", "probusdg", ("probbc", "probs", "probbbblepb")]
+    """
+
+    if tagger == "DeepFlav":
+        B = jets.btagDeepFlavB
+        probc = jets.btagDeepFlavC
+        CvB = jets.btagDeepFlavCvB
+        CvL = jets.btagDeepFlavCvL
+    elif tagger == "PNet":
+        CvB = jets.btagPNetCvB
+        CvNotB = jets.btagPNetCvNotB
+        CvL = jets.btagPNetCvL
+    elif tagger == "RobustParTAK4":
+        CvB = jets.btagRobustParTAK4CvB
+        CvNotB = jets.btagRobustParTAK4CvNotB
+        CvL = jets.btagRobustParTAK4CvL
+    elif "UParTAK4" in tagger:
+        CvB = jets.btagUParTAK4CvB
+        CvNotB = jets.btagUParTAK4CvNotB
+        CvL = jets.btagUParTAK4CvL
+        if tagger == "UParTAK4_v2":
+            probudg = jets.btagUParTAK4UDG
+            SvUDG = jets.btagUParTAK4SvUDG
+    else:
+        raise ValueError(f"Unknown tagger: {tagger}")
+
+    if tagger == "DeepFlav":
+        probudsg = ak.where((CvL > 0) & (probc > 0), (1.0 - CvL) * probc / CvL, -1.0)
+        BvC = ak.where(CvB > 0, 1.0 - CvB, -1.0)
+        HFvLF = ak.where(
+            (B > 0) & (probc > 0) & (probudsg > 0),
+            (B + probc) / (B + probc + probudsg),
+            -1.0,
+        )
+    elif tagger == "UParTAK4_v2":
+        probs = ak.Array(np.where((SvUDG > 0.0) & (probudg > 0.0), SvUDG * probudg / (1.0 - SvUDG), -1.0))
+        probc = ak.Array(np.where((CvL > 0.0) & (probs > 0.0) & (probudg > 0.0),CvL * (probs + probudg) / (1.0 - CvL),-1.0,))
+        probbbblepb = ak.Array(np.where((CvB > 0.0) & (probc > 0.0), (1.0 - CvB) * probc / CvB, -1.0))
+        BvC = ak.Array(np.where(CvB > 0.0, 1.0 - CvB, -1.0))
+        HFvLF = ak.Array(
+            np.where(
+                (probbbblepb > 0.0) & (probc > 0.0) & (probs > 0.0) & (probudg > 0.0),
+                (probbbblepb + probc) / (probbbblepb + probc + probs + probudg),
+                -1.0,
+            )
+        )
+    else:
+        probc = ak.where((CvB > 0) & (CvNotB > 0), CvB * CvNotB / (CvB - CvNotB * CvB + CvNotB), -1.0)
+        probbc = ak.where((CvB > 0) & (CvNotB > 0), CvNotB / (CvB - CvNotB * CvB + CvNotB), -1.0)
+        probudsg = ak.where((CvL > 0) & (probc > 0), (1.0 - CvL) * probc / CvL, -1.0)
+        BvC = ak.where(CvB > 0, 1.0 - CvB, -1.0)
+        HFvLF = ak.where(
+            (probbc > 0) & (probudsg > 0),
+            probbc / (probbc + probudsg),
+            -1.0,
+        )
+        jets = ak.with_field(jets, probbc, f"btag{tagger}probbc")
+
+    if tagger == "UParTAK4_v2":
+        tagger = tagger.replace("_v2", "")
+        jets = ak.with_field(jets, probs, f"btag{tagger}probs")
+        jets = ak.with_field(jets, probbbblepb, f"btag{tagger}probbbblepb")
+
+    # Add common fields
+    jets = ak.with_field(jets, probc, f"btag{tagger}probc")
+    jets = ak.with_field(jets, probudsg, f"btag{tagger}probudsg")
+    jets = ak.with_field(jets, BvC, f"btag{tagger}BvC")
+    jets = ak.with_field(jets, HFvLF, f"btag{tagger}HFvLF")
+    jets = ak.with_field(jets, ak.where(BvC > 0, 1.0 - (1.0 - BvC) ** 0.5, -1.0), f"btag{tagger}BvCt")
+    jets = ak.with_field(jets, ak.where(HFvLF > 0, 1.0 - (1.0 - HFvLF) ** 0.5, -1.0), f"btag{tagger}HFvLFt")
+
+    return jets

@@ -642,4 +642,8 @@ met_filters = {
             "eeBadScFilter",
         ],
     },
+    "Summer24": { # FIXME: add more later
+        "data": [],
+        "mc": [],
+    },
 }

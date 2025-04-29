@@ -12,7 +12,7 @@ from BTVNanoCommissioning.utils.correction import (
     common_shifts,
 )
 
-from BTVNanoCommissioning.helpers.func import update, dump_lumi, PFCand_link
+from BTVNanoCommissioning.helpers.func import update, dump_lumi, PFCand_link, add_discriminators
 from BTVNanoCommissioning.helpers.update_branch import missing_branch
 from BTVNanoCommissioning.utils.histogrammer import histogrammer, histo_writter
 from BTVNanoCommissioning.utils.array_writer import array_writer
@@ -77,7 +77,12 @@ class NanoProcessor(processor.ProcessorABC):
         else:
             raise ValueError(self.selMod, "is not a valid selection modifier.")
 
-        histname = {"DYM": "ctag_DY_sf", "DYE": "ectag_DY_sf"}
+        histname = {
+            "DYM": "ctag_DY_sf",
+            "DYE": "ectag_DY_sf",
+            "DYM_2Dcalib": "ctag_DY_sf_2Dcalib",
+            "DYE_2Dcalib": "ectag_DY_sf_2D_calib",
+        }
         output = {} if self.noHist else histogrammer(events, histname[self.selMod])
 
         if isRealData:
@@ -236,6 +241,11 @@ class NanoProcessor(processor.ProcessorABC):
         if "PFCands" in events.fields:
             pruned_ev["PFCands"] = PFCand_link(events, event_level, jetindx)
 
+        if "2Dcalib" in self.selMod:
+            taggers =  ["DeepFlav", "PNet", "RobustParTAK4"]
+            for tagger in taggers:
+                pruned_ev["SelJet"] = add_discriminators(pruned_ev["SelJet"], tagger)
+       
         ####################
         #     Output       #
         ####################

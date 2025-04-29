@@ -54,6 +54,9 @@ workflows["validation"] = ValidationProcessor
 
 # TTBar
 workflows["ttdilep_sf"] = TTdilepValidSFProcessor
+workflows["ttdilep_sf_2Dcalib"] = partial(
+    TTdilepValidSFProcessor, selectionModifier="ttdilep_sf_2Dcalib"
+)
 workflows["ttsemilep_sf"] = partial(
     TTsemilepValidSFProcessor, selectionModifier="tt_semilep"
 )
@@ -87,7 +90,13 @@ workflows["ctag_Wc_sf"] = partial(CTAGWcTTValidSFProcessor, selectionModifier="W
 workflows["ctag_Wc_noMuVeto_sf"] = partial(
     CTAGWcTTValidSFProcessor, selectionModifier="WcM_noMuVeto"
 )
+workflows["ctag_Wc_sf_2Dcalib"] = partial(
+    CTAGWcTTValidSFProcessor, selectionModifier="WcM_2Dcalib"
+)
 workflows["ectag_Wc_sf"] = partial(CTAGWcTTValidSFProcessor, selectionModifier="WcE")
+workflows["ectag_Wc_sf_2Dcalib"] = partial(
+    CTAGWcTTValidSFProcessor, selectionModifier="WcE_2Dcalib"
+)
 workflows["ctag_Wc_WP_sf"] = partial(
     CTAGWcTTValidSFProcessor, selectionModifier="cutbased_WcM"
 )
@@ -98,6 +107,13 @@ workflows["ectag_Wc_WP_sf"] = partial(
 # DY
 workflows["ctag_DY_sf"] = partial(CTAGDYValidSFProcessor, selectionModifier="DYM")
 workflows["ectag_DY_sf"] = partial(CTAGDYValidSFProcessor, selectionModifier="DYE")
+workflows["ctag_DY_sf_2Dcalib"] = partial(
+    CTAGDYValidSFProcessor, selectionModifier="DYM_2Dcalib"
+)
+workflows["ectag_DY_sf_2Dcalib"] = partial(
+    CTAGDYValidSFProcessor, selectionModifier="DYE_2Dcalib"
+)
+
 
 # Tutorial
 # workflows["example"] = ExampleProcessor
