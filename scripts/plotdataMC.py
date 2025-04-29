@@ -243,7 +243,7 @@ for index, discr in enumerate(var_set):
             for i in range(collated["mc"][discr].axes[0].size)
         ]
         if "noSF" in systlist:
-            noSF_axis["syst"] = "nominal"
+            noSF_axis["syst"] = "noSF"
 
     ## rebin config, add xerr
     do_xerr = False
@@ -343,7 +343,7 @@ for index, discr in enumerate(var_set):
             yerr=True,
             ax=ax,
             flow=args.flow,
-            **color_config,
+            #**color_config,
         )
         hep.histplot(
             collated["mc"][discr][noSF_axis],
@@ -432,7 +432,7 @@ for index, discr in enumerate(var_set):
             yerr=True,
             ax=ax,
             flow=args.flow,
-            **color_config,
+            #**color_config,
         )
         hep.histplot(
             collated["data"][discr][noSF_axis],
@@ -486,7 +486,7 @@ for index, discr in enumerate(var_set):
             yerr=True,
             ax=ax,
             flow=args.flow,
-            **color_config,
+            #**color_config,
         )
         hep.histplot(
             collated["data"][discr][allaxis],
@@ -585,9 +585,9 @@ for index, discr in enumerate(var_set):
         xlabel = axes_name(discr)
     rax.set_xlabel(xlabel)
     if "sample" in args.split:
-        ax.legend(ncols=2, prop={"size": 16})
+        ax.legend(ncols=2, prop={"size": 16},loc="upper right")
     else:
-        ax.legend()
+        ax.legend(loc="upper right")
     rax.set_ylim(0.5, 1.5)
     ax.set_ylim(bottom=0.0)
 
@@ -607,7 +607,7 @@ for index, discr in enumerate(var_set):
     name = "all"
     if args.split == "sample":
         name = name + "_sample"
-    hep.mpl_magic(ax=ax)
+    #hep.mpl_magic(ax=ax)
     if args.log:
         print(
             "creating:",
@@ -616,10 +616,10 @@ for index, discr in enumerate(var_set):
         ax.set_yscale("log")
         name = "log"
         ax.set_ylim(bottom=0.1)
-        hep.mpl_magic(ax=ax)
-        fig.savefig(
-            f"plot/{args.phase}_{args.ext}/unc_{discr}_inclusive{scale}_{name}.pdf"
-        )
+        #hep.mpl_magic(ax=ax)
+        #fig.savefig(
+       #     f"plot/{args.phase}_{args.ext}/unc_{discr}_inclusive{scale}_{name}.pdf"
+       # )
         fig.savefig(
             f"plot/{args.phase}_{args.ext}/unc_{discr}_inclusive{scale}_{name}.png"
         )
@@ -628,9 +628,10 @@ for index, discr in enumerate(var_set):
             "creating:",
             f"plot/{args.phase}_{args.ext}/unc_{discr}_inclusive{scale}_{name}.png",
         )
-        fig.savefig(
-            f"plot/{args.phase}_{args.ext}/unc_{discr}_inclusive{scale}_{name}.pdf"
-        )
+       # fig.savefig(
+        #    f"plot/{args.phase}_{args.ext}/unc_{discr}_inclusive{scale}_{name}.pdf"
+        #)
         fig.savefig(
             f"plot/{args.phase}_{args.ext}/unc_{discr}_inclusive{scale}_{name}.png"
         )
+    plt.close(fig)

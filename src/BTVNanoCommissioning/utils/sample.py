@@ -69,6 +69,29 @@ predefined_sample = {
             "TTtoLNu2Q_TuneCP5_13p6TeV_powheg-pythia8",
         ],
     },
+    "ttdilep_2Dcalib_sf": {
+        "data": ["MuonEG"],
+        "MC": ["TTto2L2Nu_TuneCP5_13p6TeV_powheg-pythia8"],
+        "minor_MC": [
+            # Top
+            "TTtoLNu2Q_TuneCP5_13p6TeV_powheg-pythia8",
+            "TBbarQ_t-channel_4FS_TuneCP5_13p6TeV_powheg-madspin-pythia8",
+            "TbarBQ_t-channel_4FS_TuneCP5_13p6TeV_powheg-madspin-pythia8",
+            "TWminusto2L2Nu_TuneCP5_13p6TeV_powheg-pythia8",
+            "TWminusto4Q_TuneCP5_13p6TeV_powheg-pythia8",
+            "TbarWplusto2L2Nu_TuneCP5_13p6TeV_powheg-pythia8",
+            "TbarWplustoLNu2Q_TuneCP5_13p6TeV_powheg-pythia8",
+            "TbarWplusto4Q_TuneCP5_13p6TeV_powheg-pythia8",
+            # VV
+            "WWto2L2Nu_TuneCP5_13p6TeV_powheg-pythia8",
+            "WWtoLNu2Q_TuneCP5_13p6TeV_powheg-pythia8",
+            "WZ_TuneCP5_13p6TeV_pythia8",
+            "ZZ_TuneCP5_13p6TeV_pythia8",
+            #"WW_TuneCP5_13p6TeV_pythia8",
+            #"DYto2L-2Jets_MLL-10to50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+            #"DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        ], 
+    },
     "ctag_ttdilep_sf": {
         "data": ["Muon0", "Muon1"],
         "MC": ["TTto2L2Nu_TuneCP5_13p6TeV_powheg-pythia8"],
