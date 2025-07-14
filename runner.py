@@ -918,14 +918,17 @@ if __name__ == "__main__":
             )
         elif "slurm" in args.executor:
             cluster = SLURMCluster(
-                queue="all",
+                queue="standard",
                 cores=args.workers,
-                processes=args.scaleout,
+                processes=args.workers,
                 memory=f"{args.memory}GB",
-                disk=f"{args.disk}GB",
-                retries=args.retries,
-                walltime="00:30:00",
+                # disk=f"{args.disk}GB",
+                # retries=args.retries,
+                walltime="03:00:00",
+                death_timeout=300,
+                log_directory="logs_dask",
                 job_script_prologue=job_script_prologue,
+                scheduler_options={"dashboard_address": ":8787"}
             )
         elif "condor" in args.executor:
             portopts = {}
@@ -951,8 +954,9 @@ if __name__ == "__main__":
             if "brux" in args.executor:
                 cluster.adapt(minimum=args.scaleout, maximum=336)
             else:
-                cluster.adapt(minimum=args.scaleout)
+                cluster.adapt(minimum=args.scaleout, maximum=100)
             client = Client(cluster)
+            print("Port:", client.dashboard_link)
             print("Waiting for at least one worker...")
             client.wait_for_workers(1)
         with performance_report(filename="dask-report.html"):

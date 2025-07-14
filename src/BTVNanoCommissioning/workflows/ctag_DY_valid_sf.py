@@ -242,7 +242,7 @@ class NanoProcessor(processor.ProcessorABC):
             pruned_ev["PFCands"] = PFCand_link(events, event_level, jetindx)
 
         if "2Dcalib" in self.selMod:
-            taggers =  ["DeepFlav", "PNet", "RobustParTAK4"]
+            taggers =  ["DeepFlav", "PNet", "UParTAK4"] #RobustParTAK4
             for tagger in taggers:
                 pruned_ev["SelJet"] = add_discriminators(pruned_ev["SelJet"], tagger)
        
