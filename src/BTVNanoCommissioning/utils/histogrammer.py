@@ -175,26 +175,117 @@ def histogrammer(events, workflow, year="2022", campaign="Summer22"):
             Hist.storage.Weight(),
         )
 
-    elif workflow in ("ttdilep_sf", "ttdilep_sf_2Dcalib"):
-        obj_list = ["mu", "ele"]
-        for i in range(2):
-            obj_list.append(f"jet{i}")
-            _hist_dict[f"dr_mujet{i}"] = Hist.Hist(
-                syst_axis, flav_axis, dr_axis, Hist.storage.Weight()
-            )
-        for i in ["mu", "ele"]:
-            if i == "mu":
-                _hist_dict[f"{i}_pfRelIso04_all"] = Hist.Hist(
-                    syst_axis, iso_axis, Hist.storage.Weight()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    elif workflow in ("ttdilep_sf", "ttdilep_sf_2Dcalib", "ttdilep_sf_2Dcalib_mumu", "ttdilep_sf_2Dcalib_ee"):
+                
+        if 'mumu' in workflow:
+            obj_list = ["mu0", "mu1"]
+            for i in range(2):
+                ##### This part needed to be edited, because it has only mujet{i}, not good enough for ee and mumu channels #####
+                obj_list.append(f"jet{i}")
+            #     _hist_dict[f"dr_mu0jet{i}"] = Hist.Hist(
+            #         syst_axis, flav_axis, dr_axis, Hist.storage.Weight()
+            #     )
+            #     _hist_dict[f"dr_mu1jet{i}"] = Hist.Hist(
+            #         syst_axis, flav_axis, dr_axis, Hist.storage.Weight()
+            #     )
+            # ##### Here also needed to be edited, for in mumu and ee cases, should consider soft and hard e or mu
+            # for i in ["mu0", "mu1"]:
+            #     _hist_dict[f"{i}_pfRelIso04_all"] = Hist.Hist(
+            #         syst_axis, iso_axis, Hist.storage.Weight()
+            #     )
+            #     _hist_dict[f"{i}_dxy"] = Hist.Hist(
+            #         syst_axis, dxy_axis, Hist.storage.Weight()
+            #     )
+            #     _hist_dict[f"{i}_dz"] = Hist.Hist(syst_axis, dz_axis, Hist.storage.Weight())
+
+
+        elif 'ee' in workflow:
+            obj_list = ["el0", "el1"]
+            for i in range(2):
+                ##### This part needed to be edited, because it has only mujet{i}, not good enough for ee and mumu channels #####
+                obj_list.append(f"jet{i}")
+            #     _hist_dict[f"dr_el0jet{i}"] = Hist.Hist(
+            #         syst_axis, flav_axis, dr_axis, Hist.storage.Weight()
+            #     )
+            #     _hist_dict[f"dr_el1jet{i}"] = Hist.Hist(
+            #         syst_axis, flav_axis, dr_axis, Hist.storage.Weight()
+            #     )
+            # ##### Here also needed to be edited, for in mumu and ee cases, should consider soft and hard e or mu
+            # for i in ["el0", "el1"]:
+            #     _hist_dict[f"{i}_pfRelIso04_all"] = Hist.Hist(
+            #         syst_axis, iso_axis, Hist.storage.Weight()
+            #     )
+            #     _hist_dict[f"{i}_dxy"] = Hist.Hist(
+            #         syst_axis, dxy_axis, Hist.storage.Weight()
+            #     )
+            #     _hist_dict[f"{i}_dz"] = Hist.Hist(syst_axis, dz_axis, Hist.storage.Weight())
+
+
+        else:
+            obj_list = ["mu", "ele"]
+            for i in range(2):
+                ##### This part needed to be edited, because it has only mujet{i}, not good enough for ee and mumu channels #####
+                obj_list.append(f"jet{i}")
+                _hist_dict[f"dr_mujet{i}"] = Hist.Hist(
+                    syst_axis, flav_axis, dr_axis, Hist.storage.Weight()
                 )
-            else:
-                _hist_dict[f"{i}_pfRelIso03_all"] = Hist.Hist(
-                    syst_axis, iso_axis, Hist.storage.Weight()
+            ##### Here also needed to be edited, for in mumu and ee cases, should consider soft and hard e or mu
+            for i in ["mu", "ele"]:
+                if i == "mu":
+                    _hist_dict[f"{i}_pfRelIso04_all"] = Hist.Hist(
+                        syst_axis, iso_axis, Hist.storage.Weight()
+                    )
+                else:
+                    _hist_dict[f"{i}_pfRelIso03_all"] = Hist.Hist(
+                        syst_axis, iso_axis, Hist.storage.Weight()
+                    )
+                _hist_dict[f"{i}_dxy"] = Hist.Hist(
+                    syst_axis, dxy_axis, Hist.storage.Weight()
                 )
-            _hist_dict[f"{i}_dxy"] = Hist.Hist(
-                syst_axis, dxy_axis, Hist.storage.Weight()
-            )
-            _hist_dict[f"{i}_dz"] = Hist.Hist(syst_axis, dz_axis, Hist.storage.Weight())
+                _hist_dict[f"{i}_dz"] = Hist.Hist(syst_axis, dz_axis, Hist.storage.Weight())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     elif "ttsemilep_sf" == workflow:
         obj_list = ["mu", "MET"]
         obj_list.append("cjet")
@@ -305,6 +396,7 @@ def histogrammer(events, workflow, year="2022", campaign="Summer22"):
             syst_axis, flav_axis, dr_axis, Hist.storage.Weight()
         )
         # delta R between hard muon and soft-muon
+        ##### Here enev it said soft and hard LEPTON, it still needed to be edit#####
         _hist_dict["dr_hmusmu"] = Hist.Hist(syst_axis, dr_axis, Hist.storage.Weight())
         for i in ["hl", "soft_l"]:
             if i == "soft_l":

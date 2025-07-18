@@ -57,6 +57,12 @@ workflows["ttdilep_sf"] = TTdilepValidSFProcessor
 workflows["ttdilep_sf_2Dcalib"] = partial(
     TTdilepValidSFProcessor, selectionModifier="ttdilep_sf_2Dcalib"
 )
+workflows["ttdilep_sf_2Dcalib_mumu"] = partial(
+    TTdilepValidSFProcessor, selectionModifier="ttdilep_sf_2Dcalib_mumu"
+)
+workflows["ttdilep_sf_2Dcalib_ee"] = partial(
+    TTdilepValidSFProcessor, selectionModifier="ttdilep_sf_2Dcalib_ee"
+)
 workflows["ttsemilep_sf"] = partial(
     TTsemilepValidSFProcessor, selectionModifier="tt_semilep"
 )
