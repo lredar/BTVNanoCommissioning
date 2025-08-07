@@ -164,7 +164,7 @@ elif "ectag" in args.phase:
     input_txt = input_txt + " (e)"
 elif "QCD" == args.phase:
     input_txt = input_txt + ""
-elif "ttdilep_sf" == args.phase:
+elif "ttdilep_sf" in args.phase:
     input_txt = input_txt + " (e$\mu$)"
 else:
     input_txt = input_txt + " ($\mu$)"
@@ -343,7 +343,7 @@ for index, discr in enumerate(var_set):
             yerr=True,
             ax=ax,
             flow=args.flow,
-            **color_config,
+            #**color_config,
         )
         hep.histplot(
             collated["mc"][discr][noSF_axis],
@@ -432,7 +432,7 @@ for index, discr in enumerate(var_set):
             yerr=True,
             ax=ax,
             flow=args.flow,
-            **color_config,
+            #**color_config,
         )
         hep.histplot(
             collated["data"][discr][noSF_axis],
@@ -486,7 +486,7 @@ for index, discr in enumerate(var_set):
             yerr=True,
             ax=ax,
             flow=args.flow,
-            **color_config,
+            #**color_config,
         )
         hep.histplot(
             collated["data"][discr][allaxis],
@@ -585,9 +585,9 @@ for index, discr in enumerate(var_set):
         xlabel = axes_name(discr)
     rax.set_xlabel(xlabel)
     if "sample" in args.split:
-        ax.legend(ncols=2, prop={"size": 16})
+        ax.legend(ncols=2, prop={"size": 16},loc="upper right")
     else:
-        ax.legend()
+        ax.legend(loc="upper right")
     rax.set_ylim(0.5, 1.5)
     ax.set_ylim(bottom=0.0)
 
@@ -626,10 +626,10 @@ for index, discr in enumerate(var_set):
         ax.set_yscale("log")
         name = "log"
         ax.set_ylim(bottom=0.1)
-        hep.mpl_magic(ax=ax)
-        fig.savefig(
-            f"plot/{args.phase}_{args.ext}/unc_{discr}_inclusive{scale}_{name}.pdf"
-        )
+        #hep.mpl_magic(ax=ax)
+        #fig.savefig(
+       #     f"plot/{args.phase}_{args.ext}/unc_{discr}_inclusive{scale}_{name}.pdf"
+       # )
         fig.savefig(
             f"plot/{args.phase}_{args.ext}/unc_{discr}_inclusive{scale}_{name}.png"
         )
@@ -638,9 +638,9 @@ for index, discr in enumerate(var_set):
             "creating:",
             f"plot/{args.phase}_{args.ext}/unc_{discr}_inclusive{scale}_{name}.png",
         )
-        fig.savefig(
-            f"plot/{args.phase}_{args.ext}/unc_{discr}_inclusive{scale}_{name}.pdf"
-        )
+       # fig.savefig(
+        #    f"plot/{args.phase}_{args.ext}/unc_{discr}_inclusive{scale}_{name}.pdf"
+        #)
         fig.savefig(
             f"plot/{args.phase}_{args.ext}/unc_{discr}_inclusive{scale}_{name}.png"
         )

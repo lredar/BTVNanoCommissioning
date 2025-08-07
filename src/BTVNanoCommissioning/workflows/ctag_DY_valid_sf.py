@@ -81,7 +81,7 @@ class NanoProcessor(processor.ProcessorABC):
             "DYM": "ctag_DY_sf",
             "DYE": "ectag_DY_sf",
             "DYM_2Dcalib": "ctag_DY_sf_2Dcalib",
-            "DYE_2Dcalib": "ectag_DY_sf_2D_calib",
+            "DYE_2Dcalib": "ectag_DY_sf_2Dcalib",
         }
         output = {} if self.noHist else histogrammer(events, histname[self.selMod])
 

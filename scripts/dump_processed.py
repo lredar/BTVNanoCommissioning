@@ -33,8 +33,11 @@ def dump_lumi(output, fname):
     lumi_in_pb = os.popen(
         f"export PATH=$HOME/.local/bin:/cvmfs/cms-bril.cern.ch/brilconda3/bin:$PATH; brilcalc lumi --normtag /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags/normtag_BRIL.json -c web -i {fname}_lumi.json -u /pb "
     ).read()
+
+    with open(f"{fname}_lumi.txt", "w") as txtfile:
+        txtfile.write(lumi_in_pb)
     summary_start = lumi_in_pb.find("#Summary:")
-    summary_lines = lumi_in_pb[summary_start:].splitlines()[1:5]
+    summary_lines = lumi_in_pb[summary_start:].splitlines()[1:8]
     for line in summary_lines:
         print(line)
     #lumi_in_pb = float(lumi_in_pb.split("\n")[-3].split("|")[-2])
