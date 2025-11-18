@@ -1,3 +1,0 @@
-[submodule "SFbc-2D"]
-	path = SFbc-2D
-	url = ssh://git@gitlab.cern.ch:7999/cms-btv/btv-sf-code/sfbc-2d.git
