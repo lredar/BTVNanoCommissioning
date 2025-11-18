@@ -213,6 +213,7 @@ correction_config = {
             "Scale",
             "SmearAndSyst",
         ],
+        # "BTV": ["ctag", "UParTAK4_pseudocontinuous"],
     },
     "prompt_dataMC": {"DC": "$PROMPT_DATAMC"},
 }
