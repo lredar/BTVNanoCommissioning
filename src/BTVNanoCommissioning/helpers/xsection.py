@@ -236,6 +236,20 @@ xsection = [
         "comment": "from XSDB",
     },
     {
+        "process_name": "TbarBtoLminusNuB-s-channel-4FS_TuneCP5_13p6TeV_amcatnlo-pythia8",
+        "cross_section": "1.484",
+        "accuracy": "NNLO",
+        "energy": "13.6",
+        "comment": "https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SingleTopNNLORef#Single_top_quark_s_channel_cross, https://pdg.lbl.gov/2025/listings/rpp2025-list-w-boson.pdf"
+    },
+    {
+        "process_name": "TBbartoLplusNuBbar-s-channel-4FS_TuneCP5_13p6TeV_amcatnlo-pythia8",
+        "cross_section": "2.370",
+        "accuracy": "NNLO",
+        "energy": "13.6",
+        "comment": "https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SingleTopNNLORef#Single_top_quark_s_channel_cross, https://pdg.lbl.gov/2025/listings/rpp2025-list-w-boson.pdf"
+    },
+    {
         "process_name": "TTTo2L2Nu_CP5_13p6TeV_powheg-pythia8",
         "cross_section": "96.9",
         "DAS": "/TTTo2L2Nu_CP5_13p6TeV_powheg-pythia8/Run3Winter22NanoAOD-122X_mcRun3_2021_realistic_v9-v1/NANOAODSIM",
@@ -293,6 +307,27 @@ xsection = [
         "equivalent_lumi": "1.292",
         "fraction_negative_weight": "0.003854",
         "comments": "Automatically computed",
+    },
+    {
+        "process_name": "TTLL_Bin-MLL-4to50_TuneCP5_13p6TeV_amcatnlo-pythia8",
+        "cross_section": "0.03949",
+        "accuracy": "NLO",
+        "energy": "13.6",
+        "comment": "GenXSecAnalyzer",
+    },
+    {
+        "process_name": "TTLL_Bin-MLL-50_TuneCP5_13p6TeV_amcatnlo-pythia8",
+        "cross_section": "0.08646",
+        "accuracy": "NLO",
+        "energy": "13.6",
+        "comment": "GenXSecAnalyzer",
+    },
+    {
+        "process_name": "TTZ-ZtoQQ-1Jets_TuneCP5_13p6TeV_amcatnloFXFXold-pythia8",
+        "cross_section": "0.6337",
+        "accuracy": "NLO",
+        "energy": "13.6",
+        "comment": "GenXSecAnalyzer",
     },
     {
         "process_name": "WJetsToLNu_TuneCP5_13p6TeV-madgraphMLM-pythia8",

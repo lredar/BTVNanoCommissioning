@@ -20,6 +20,7 @@ color_map = {
     "QCD($\\mu$)": "#a5aa99",
     "Single top": "#3969ac",
     "$t\\bar{t}$": "#008695",
+    "tt+X": "#bd1f01",
     "udsg": "tab:blue",
     "pu": "tab:orange",
     "c": "tab:green",
@@ -146,6 +147,8 @@ sample_mergemap = {
     "Single top": [
         "TbarBQ_t-channel_4FS_CP5_13p6TeV_powheg-madspin-pythia8",
         "TBbarQ_t-channel_4FS_CP5_13p6TeV_powheg-madspin-pythia8",
+        "TbarBtoLminusNuB-s-channel-4FS_TuneCP5_13p6TeV_amcatnlo-pythia8",
+        "TBbartoLplusNuBbar-s-channel-4FS_TuneCP5_13p6TeV_amcatnlo-pythia8",
         "TWminus_DR_AtLeastOneLepton_CP5_13p6TeV_powheg-pythia8",
         "TbarBQ_t-channel_4FS_CP5_13p6TeV_powheg-madspin-pythia8",
         "TbarWplus_DR_AtLeastOneLepton_CP5_13p6TeV_powheg-pythia8",
@@ -167,6 +170,11 @@ sample_mergemap = {
         "TTto4Q_TuneCP5_13p6TeV_powheg-pythia8",
         "TTtoLNu2Q_TuneCP5_13p6TeV_powheg-pythia8",
         "TTTo2J1L1Nu_CP5_13p6TeV_powheg-pythia8",
+    ],
+    "tt+X": [
+        "TTLL_Bin-MLL-4to50_TuneCP5_13p6TeV_amcatnlo-pythia8",
+        "TTLL_Bin-MLL-50_TuneCP5_13p6TeV_amcatnlo-pythia8",
+        "TTZ-ZtoQQ-1Jets_TuneCP5_13p6TeV_amcatnloFXFXold-pythia8",
     ],
 }
 ### copy functions coffea.hist.plotratio https://github.com/CoffeaTeam/coffea/blob/master/coffea/hist/plot.py to boost-hist
