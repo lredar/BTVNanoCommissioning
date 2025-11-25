@@ -21,8 +21,10 @@ from BTVNanoCommissioning.utils.array_writer import array_writer
 from BTVNanoCommissioning.utils.selection import (
     HLT_helper,
     jet_id,
-    mu_idiso,
-    ele_mvatightid,
+    # mu_idiso,
+    # ele_mvatightid,
+    mu_promptmvatightid,
+    ele_promptmvatightid,
     MET_filters,
     calculate_new_discriminators,
     get_wp_2D,
@@ -121,12 +123,11 @@ class NanoProcessor(processor.ProcessorABC):
         ## Lepton cuts
         if self.selMod == "semittE":
             event_iso_lep = events.Electron[
-                (events.Electron.pt > 32) & ele_mvatightid(events, self._campaign)
+                (events.Electron.pt > 32) & ele_promptmvatightid(events, self._campaign)
             ]
         elif self.selMod == "semittM":
-            # muon twiki: https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2
             event_iso_lep = events.Muon[
-                (events.Muon.pt > 30) & mu_idiso(events, self._campaign)
+                (events.Muon.pt > 30) & mu_promptmvatightid(events, self._campaign)
             ]
             event_soft_mu = events.Muon[
                 (events.Muon.pt > 5)
