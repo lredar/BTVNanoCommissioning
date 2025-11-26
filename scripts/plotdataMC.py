@@ -211,7 +211,10 @@ else:
 if "sample" in args.split:
     collated = {
         key: value
-        for key, value in sorted(collated.items(), key=lambda item: np.sum(item[1]["njet"][{"syst": "nominal"}].values()))
+        for key, value in sorted(
+            collated.items(),
+            key=lambda item: np.sum(item[1]["njet"][{"syst": "nominal"}].values()),
+        )
     }
     print("Sorted keys:", collated.keys())
 

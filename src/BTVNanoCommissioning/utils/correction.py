@@ -105,7 +105,9 @@ def load_SF(year, campaign, syst=False):
             if os.path.exists(_btv_path):
                 correct_map[sf_type] = correctionlib.CorrectionSet.from_file(_btv_path)
             # Central file is superseded by locally saved custom file
-            _btv_path = f"src/BTVNanoCommissioning/data/BTV/{campaign}/{sf_type}ging.json.gz"
+            _btv_path = (
+                f"src/BTVNanoCommissioning/data/BTV/{campaign}/{sf_type}ging.json.gz"
+            )
             if os.path.exists(_btv_path):
                 correct_map[sf_type] = correctionlib.CorrectionSet.from_file(_btv_path)
             else:
@@ -1392,7 +1394,9 @@ def btagSFs(event, correct_map, weights, SFtype, syst=False):
             jet = alljet[:, nj]
             masknone = ak.is_none(jet.pt)
             jet.hadronFlavour = ak.fill_none(jet.hadronFlavour, 0)
-            if "ctag" in correct_map.keys() and "correctionlib" in str(type(correct_map["ctag"])):
+            if "ctag" in correct_map.keys() and "correctionlib" in str(
+                type(correct_map["ctag"])
+            ):
                 if SFtype == "DeepJetC":
                     jet.btagDeepFlavCvL = ak.fill_none(jet.btagDeepFlavCvL, 0.0)
                     jet.btagDeepFlavCvB = ak.fill_none(jet.btagDeepFlavCvB, 0.0)
@@ -1509,7 +1513,9 @@ def btagSFs(event, correct_map, weights, SFtype, syst=False):
                                 jet_pt,
                             ),
                         )
-            elif "btag" in correct_map.keys() and "correctionlib" in str(type(correct_map["btag"])):
+            elif "btag" in correct_map.keys() and "correctionlib" in str(
+                type(correct_map["btag"])
+            ):
                 if SFtype == "DeepJetB":
                     jet.btagDeepFlavCvL = ak.fill_none(jet.btagDeepFlavCvL, 0.0)
                     jet.btagDeepFlavCvB = ak.fill_none(jet.btagDeepFlavCvB, 0.0)
@@ -2582,7 +2588,9 @@ def weight_manager(pruned_ev, SF_map, isSyst):
             muSFs(pruned_ev.SelMuon, SF_map, weights, syst_wei, False)
         if "EGM" in SF_map.keys() and "SelElectron" in pruned_ev.fields:
             eleSFs(pruned_ev.SelElectron, SF_map, weights, syst_wei, True)
-        if ("ctag" in SF_map.keys() or "btag" in SF_map.keys()) and "SelJet" in pruned_ev.fields:
+        if (
+            "ctag" in SF_map.keys() or "btag" in SF_map.keys()
+        ) and "SelJet" in pruned_ev.fields:
             btagSFs(pruned_ev, SF_map, weights, "UParTAK4C", syst_wei)
             # btagSFs(pruned_ev, SF_map, weights, "DeepJetC", syst_wei)
             # btagSFs(pruned_ev, SF_map, weights, "DeepJetB", syst_wei)

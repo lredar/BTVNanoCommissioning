@@ -223,15 +223,15 @@ def btag_wp(jets, year, campaign, tagger, borc, wp):
     return jet_mask
 
 
-def calculate_new_discriminators(ith_jets):
-    probudg = ith_jets.btagUParTAK4UDG
-    SvUDG = ith_jets.btagUParTAK4SvUDG
+def calculate_new_discriminators(ith_jets, tagger="UParTAK4"):
+    probudg = ith_jets[f"btag{tagger}UDG"]
+    SvUDG = ith_jets[f"btag{tagger}SvUDG"]
     probs = ak.Array(
         np.where(
             (SvUDG >= 0.0) & (probudg >= 0.0), SvUDG * probudg / (1.0 - SvUDG), -1.0
         )
     )
-    CvL = ith_jets.btagUParTAK4CvL
+    CvL = ith_jets[f"btag{tagger}CvL"]
     probc = ak.Array(
         np.where(
             (CvL >= 0.0) & (probs >= 0.0) & (probudg >= 0.0),
@@ -239,7 +239,7 @@ def calculate_new_discriminators(ith_jets):
             -1.0,
         )
     )
-    CvB = ith_jets.btagUParTAK4CvB
+    CvB = ith_jets[f"btag{tagger}CvB"]
     probbbblepb = ak.Array(
         np.where((CvB >= 0.0) & (probc >= 0.0), (1.0 - CvB) * probc / CvB, -1.0)
     )
@@ -517,16 +517,16 @@ btag_wp_dict = {
                     0.0,
                     1.0,
                 ],  # [HFvLF low, HFvLF high, BvC low, BvC high]
-                "C0": [0.264, 0.448, 0.0, 1.0],
-                "C1": [0.448, 0.767, 0.0, 1.0],
-                "C2": [0.767, 1.0, 0.028, 0.094],
-                "C3": [0.767, 1.0, 0.01, 0.028],
-                "C4": [0.767, 1.0, 0.0, 0.01],
-                "B0": [0.767, 1.0, 0.094, 0.69],
-                "B1": [0.767, 1.0, 0.69, 0.918],
-                "B2": [0.767, 1.0, 0.918, 0.978],
-                "B3": [0.767, 1.0, 0.978, 0.994],
-                "B4": [0.767, 1.0, 0.994, 1.0],
+                "C0": [0.264, 0.448, 0.000, 1.000],
+                "C1": [0.448, 0.766, 0.000, 1.000],
+                "C2": [0.766, 1.000, 0.028, 0.094],
+                "C3": [0.766, 1.000, 0.010, 0.028],
+                "C4": [0.766, 1.000, 0.000, 0.010],
+                "B0": [0.766, 1.000, 0.094, 0.690],
+                "B1": [0.766, 1.000, 0.690, 0.918],
+                "B2": [0.766, 1.000, 0.918, 0.978],
+                "B3": [0.766, 1.000, 0.978, 0.994],
+                "B4": [0.766, 1.000, 0.994, 1.000],
                 "mapping": {
                     "L0": 0,
                     "C0": 1,

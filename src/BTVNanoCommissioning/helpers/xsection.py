@@ -240,14 +240,14 @@ xsection = [
         "cross_section": "1.484",
         "accuracy": "NNLO",
         "energy": "13.6",
-        "comment": "https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SingleTopNNLORef#Single_top_quark_s_channel_cross, https://pdg.lbl.gov/2025/listings/rpp2025-list-w-boson.pdf"
+        "comment": "https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SingleTopNNLORef#Single_top_quark_s_channel_cross, https://pdg.lbl.gov/2025/listings/rpp2025-list-w-boson.pdf",
     },
     {
         "process_name": "TBbartoLplusNuBbar-s-channel-4FS_TuneCP5_13p6TeV_amcatnlo-pythia8",
         "cross_section": "2.370",
         "accuracy": "NNLO",
         "energy": "13.6",
-        "comment": "https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SingleTopNNLORef#Single_top_quark_s_channel_cross, https://pdg.lbl.gov/2025/listings/rpp2025-list-w-boson.pdf"
+        "comment": "https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SingleTopNNLORef#Single_top_quark_s_channel_cross, https://pdg.lbl.gov/2025/listings/rpp2025-list-w-boson.pdf",
     },
     {
         "process_name": "TTTo2L2Nu_CP5_13p6TeV_powheg-pythia8",
