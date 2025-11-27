@@ -120,7 +120,7 @@ def ele_mvatightid(events, campaign):
     return elemask
 
 
-def ele_promptmvatightid(events, campaign):
+def ele_promptmvaid(events, campaign):
     # https://indico.cern.ch/event/1575017/contributions/6635248/attachments/3115862/5524310/EGammaAug08.pdf
     ele_etaSC = (
         events.Electron.eta + events.Electron.deltaEtaSC
@@ -154,7 +154,7 @@ def mu_idiso(events, campaign):
     return mumask
 
 
-def mu_promptmvatightid(events, campaign):
+def mu_promptmvaid(events, campaign):
     # https://muon-wiki.docs.cern.ch/guidelines/recommendations/#prompt-mva-formerly-tth-mva
     # https://muon-wiki.docs.cern.ch/guidelines/recommendations/#muon-isolation
     # https://cms-talk.web.cern.ch/t/prompt-mva-sfs-definition/132578

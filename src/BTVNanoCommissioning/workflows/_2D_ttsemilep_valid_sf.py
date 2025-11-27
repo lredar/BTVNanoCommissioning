@@ -23,8 +23,8 @@ from BTVNanoCommissioning.utils.selection import (
     jet_id,
     # mu_idiso,
     # ele_mvatightid,
-    mu_promptmvatightid,
-    ele_promptmvatightid,
+    mu_promptmvaid,
+    ele_promptmvaid,
     MET_filters,
     calculate_new_discriminators,
     get_wp_2D,
@@ -123,11 +123,11 @@ class NanoProcessor(processor.ProcessorABC):
         ## Lepton cuts
         if self.selMod == "semittE":
             event_iso_lep = events.Electron[
-                (events.Electron.pt > 32) & ele_promptmvatightid(events, self._campaign)
+                (events.Electron.pt > 32) & ele_promptmvaid(events, self._campaign)
             ]
         elif self.selMod == "semittM":
             event_iso_lep = events.Muon[
-                (events.Muon.pt > 30) & mu_promptmvatightid(events, self._campaign)
+                (events.Muon.pt > 30) & mu_promptmvaid(events, self._campaign)
             ]
             event_soft_mu = events.Muon[
                 (events.Muon.pt > 5)
