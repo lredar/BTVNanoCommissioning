@@ -206,6 +206,18 @@ elif "*" in args.variable:
         ]
 else:
     var_set = args.variable.split(",")
+
+# Sort samples by smallest first
+if "sample" in args.split:
+    collated = {
+        key: value
+        for key, value in sorted(
+            collated.items(),
+            key=lambda item: np.sum(item[1]["njet"][{"syst": "nominal"}].values()),
+        )
+    }
+    print("Sorted keys:", collated.keys())
+
 for index, discr in enumerate(var_set):
     try:
         if not isinstance(collated["mc"][discr], hist.hist.Hist):

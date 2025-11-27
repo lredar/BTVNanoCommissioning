@@ -120,6 +120,19 @@ def ele_mvatightid(events, campaign):
     return elemask
 
 
+def ele_promptmvaid(events, campaign):
+    # https://indico.cern.ch/event/1575017/contributions/6635248/attachments/3115862/5524310/EGammaAug08.pdf
+    ele_etaSC = (
+        events.Electron.eta + events.Electron.deltaEtaSC
+        if "Summer24" not in campaign
+        else events.Electron.superclusterEta
+    )
+    elemask = (
+        (abs(ele_etaSC) < 1.4442) | ((abs(ele_etaSC) > 1.566) & (abs(ele_etaSC) < 2.5))
+    ) & (events.Electron.promptMVA >= 0.9 if "Summer24" in campaign else 0.3)
+    return elemask
+
+
 def softmu_mask(events, campaign, dxySigCut=0):
     softmumask = (
         (events.Muon.pt < 25)
@@ -137,6 +150,19 @@ def mu_idiso(events, campaign):
         (abs(events.Muon.eta) < 2.4)
         & (events.Muon.tightId > 0.5)
         & (events.Muon.pfRelIso04_all <= 0.15)
+    )
+    return mumask
+
+
+def mu_promptmvaid(events, campaign):
+    # https://muon-wiki.docs.cern.ch/guidelines/recommendations/#prompt-mva-formerly-tth-mva
+    # https://muon-wiki.docs.cern.ch/guidelines/recommendations/#muon-isolation
+    # https://cms-talk.web.cern.ch/t/prompt-mva-sfs-definition/132578
+    # https://indico.cern.ch/event/1351304/contributions/5688794/attachments/2765665/4817340/CarlosVico_Muon_mvaTTH_24nov2023.pdf (slide 5 for WP)
+    mumask = (
+        (abs(events.Muon.eta) < 2.4)
+        & (events.Muon.tightId > 0.5)
+        & (events.Muon.promptMVA > 0.64)
     )
     return mumask
 
@@ -197,15 +223,15 @@ def btag_wp(jets, year, campaign, tagger, borc, wp):
     return jet_mask
 
 
-def calculate_new_discriminators(ith_jets):
-    probudg = ith_jets.btagUParTAK4UDG
-    SvUDG = ith_jets.btagUParTAK4SvUDG
+def calculate_new_discriminators(ith_jets, tagger="UParTAK4"):
+    probudg = ith_jets[f"btag{tagger}UDG"]
+    SvUDG = ith_jets[f"btag{tagger}SvUDG"]
     probs = ak.Array(
         np.where(
             (SvUDG >= 0.0) & (probudg >= 0.0), SvUDG * probudg / (1.0 - SvUDG), -1.0
         )
     )
-    CvL = ith_jets.btagUParTAK4CvL
+    CvL = ith_jets[f"btag{tagger}CvL"]
     probc = ak.Array(
         np.where(
             (CvL >= 0.0) & (probs >= 0.0) & (probudg >= 0.0),
@@ -213,7 +239,7 @@ def calculate_new_discriminators(ith_jets):
             -1.0,
         )
     )
-    CvB = ith_jets.btagUParTAK4CvB
+    CvB = ith_jets[f"btag{tagger}CvB"]
     probbbblepb = ak.Array(
         np.where((CvB >= 0.0) & (probc >= 0.0), (1.0 - CvB) * probc / CvB, -1.0)
     )
@@ -491,16 +517,16 @@ btag_wp_dict = {
                     0.0,
                     1.0,
                 ],  # [HFvLF low, HFvLF high, BvC low, BvC high]
-                "C0": [0.264, 0.448, 0.0, 1.0],
-                "C1": [0.448, 0.767, 0.0, 1.0],
-                "C2": [0.767, 1.0, 0.028, 0.094],
-                "C3": [0.767, 1.0, 0.01, 0.028],
-                "C4": [0.767, 1.0, 0.0, 0.01],
-                "B0": [0.767, 1.0, 0.094, 0.69],
-                "B1": [0.767, 1.0, 0.69, 0.918],
-                "B2": [0.767, 1.0, 0.918, 0.978],
-                "B3": [0.767, 1.0, 0.978, 0.994],
-                "B4": [0.767, 1.0, 0.994, 1.0],
+                "C0": [0.264, 0.448, 0.000, 1.000],
+                "C1": [0.448, 0.766, 0.000, 1.000],
+                "C2": [0.766, 1.000, 0.028, 0.094],
+                "C3": [0.766, 1.000, 0.010, 0.028],
+                "C4": [0.766, 1.000, 0.000, 0.010],
+                "B0": [0.766, 1.000, 0.094, 0.690],
+                "B1": [0.766, 1.000, 0.690, 0.918],
+                "B2": [0.766, 1.000, 0.918, 0.978],
+                "B3": [0.766, 1.000, 0.978, 0.994],
+                "B4": [0.766, 1.000, 0.994, 1.000],
                 "mapping": {
                     "L0": 0,
                     "C0": 1,

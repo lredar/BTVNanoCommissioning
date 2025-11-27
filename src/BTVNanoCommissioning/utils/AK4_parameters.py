@@ -198,13 +198,14 @@ correction_config = {
         "jetveto": {"Summer24Prompt24_RunBCDEFGHI_V1": "jetvetomap"},
         "MUO": {
             "mu_ID": "NUM_TightID_DEN_TrackerMuons",
-            "mu_Iso": "NUM_TightPFIso_DEN_TightID",
+            # "mu_Iso": "NUM_TightPFIso_DEN_TightID",
+            "mu_Iso": "NUM_promptMVA_WP64ID_DEN_TightID",
             # TODO: not yet available for 2024 (August 2025)
             # "mu_Trig": "NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight",
         },
         "EGM": {
             "ele_Reco 2024 Electron-ID-SF": "",
-            "ele_ID 2024 Electron-ID-SF": "wp80iso",
+            # "ele_ID 2024 Electron-ID-SF": "wp80iso",
             # TODO: HLT SFs are a placeholder for now (August 2025)
             "ele_Trig 2023PromptD Electron-HLT-SF": "HLT_SF_Ele30_MVAiso80ID",
         },
@@ -213,6 +214,7 @@ correction_config = {
             "Scale",
             "SmearAndSyst",
         ],
+        # "BTV": ["ctag", "UParTAK4_pseudocontinuous"],
     },
     "prompt_dataMC": {"DC": "$PROMPT_DATAMC"},
 }
