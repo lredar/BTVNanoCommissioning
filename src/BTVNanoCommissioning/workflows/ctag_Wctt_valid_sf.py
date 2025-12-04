@@ -1,8 +1,6 @@
-import os
-import collections, awkward as ak, numpy as np
-import uproot
+import awkward as ak
+import numpy as np
 from coffea import processor
-from coffea.analysis_tools import Weights
 
 from BTVNanoCommissioning.utils.correction import (
     load_lumi,
@@ -125,10 +123,8 @@ class NanoProcessor(processor.ProcessorABC):
                 include_discriminators_2D=True if "2D" in self.selMod else False,
             )
 
-        if isRealData:
-            output["sumw"] = len(events)
-        else:
-            output["sumw"] = ak.sum(events.genWeight)
+        if shift_name is None:
+            output["sumw"] = len(events) if isRealData else ak.sum(events.genWeight)
         ####################
         #    Selections    #
         ####################
@@ -377,7 +373,7 @@ class NanoProcessor(processor.ProcessorABC):
                     "c"
                 ].keys()
                 for c_wp in c_wps:
-                    if not "No" in c_wp:
+                    if "No" not in c_wp:
                         smuon_jet_passc[c_algo][c_wp] = btag_wp(
                             smuon_jet, self._year, self._campaign, c_algo, "c", c_wp
                         )
@@ -712,7 +708,7 @@ class NanoProcessor(processor.ProcessorABC):
             if "cutbased_Wc" in self.selMod:
                 for c_algo in c_algos:
                     for c_wp in c_wps:
-                        if not "No" in c_wp:
+                        if "No" not in c_wp:
                             output[f"mujet_pt_{c_algo}{c_wp}"].fill(
                                 syst,
                                 smflav[smuon_jet_passc[c_algo][c_wp]],
