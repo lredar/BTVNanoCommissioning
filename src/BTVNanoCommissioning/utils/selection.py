@@ -224,33 +224,46 @@ def btag_wp(jets, year, campaign, tagger, borc, wp):
 
 
 def calculate_new_discriminators(ith_jets, tagger="UParTAK4"):
-    probudg = ith_jets[f"btag{tagger}UDG"]
-    SvUDG = ith_jets[f"btag{tagger}SvUDG"]
-    probs = ak.Array(
-        np.where(
-            (SvUDG >= 0.0) & (probudg >= 0.0), SvUDG * probudg / (1.0 - SvUDG), -1.0
+    if tagger == "UParTAK4":
+        probudg = ith_jets[f"btag{tagger}UDG"]
+        SvUDG = ith_jets[f"btag{tagger}SvUDG"]
+        probs = ak.Array(
+            np.where(
+                (SvUDG >= 0.0) & (probudg >= 0.0), SvUDG * probudg / (1.0 - SvUDG), -1.0
+            )
         )
-    )
-    CvL = ith_jets[f"btag{tagger}CvL"]
-    probc = ak.Array(
-        np.where(
-            (CvL >= 0.0) & (probs >= 0.0) & (probudg >= 0.0),
-            CvL * (probs + probudg) / (1.0 - CvL),
-            -1.0,
+        CvL = ith_jets[f"btag{tagger}CvL"]
+        probc = ak.Array(
+            np.where(
+                (CvL >= 0.0) & (probs >= 0.0) & (probudg >= 0.0),
+                CvL * (probs + probudg) / (1.0 - CvL),
+                -1.0,
+            )
         )
-    )
-    CvB = ith_jets[f"btag{tagger}CvB"]
-    probbbblepb = ak.Array(
-        np.where((CvB >= 0.0) & (probc >= 0.0), (1.0 - CvB) * probc / CvB, -1.0)
-    )
-    BvC = ak.Array(np.where(CvB >= 0.0, 1.0 - CvB, -1.0))
-    HFvLF = ak.Array(
-        np.where(
-            (probbbblepb >= 0.0) & (probc >= 0.0) & (probs >= 0.0) & (probudg >= 0.0),
-            (probbbblepb + probc) / (probbbblepb + probc + probs + probudg),
-            -1.0,
+        CvB = ith_jets[f"btag{tagger}CvB"]
+        probbbblepb = ak.Array(
+            np.where((CvB >= 0.0) & (probc >= 0.0), (1.0 - CvB) * probc / CvB, -1.0)
         )
-    )
+        BvC = ak.Array(np.where(CvB >= 0.0, 1.0 - CvB, -1.0))
+        HFvLF = ak.Array(
+            np.where(
+                (probbbblepb >= 0.0) & (probc >= 0.0) & (probs >= 0.0) & (probudg >= 0.0),
+                (probbbblepb + probc) / (probbbblepb + probc + probs + probudg),
+                -1.0,
+            )
+        )
+    else:
+        B = ith_jets[f"btag{tagger}B"]
+        CvL = ith_jets[f"btag{tagger}CvL"]
+        CvB = ith_jets[f"btag{tagger}CvB"]
+        #CvNotB = ith_jets[f"btag{tagger}CvNotB"]
+        #probc = ak.where((CvB > 0) & (CvNotB > 0), CvB * CvNotB / (CvB - CvNotB * CvB + CvNotB), -1.0)
+        #probbc = ak.where((CvB > 0) & (CvNotB > 0), CvNotB / (CvB - CvNotB * CvB + CvNotB), -1.0)
+        #probudsg = ak.where((CvL > 0) & (probc > 0), (1.0 - CvL) * probc / CvL, -1.0)
+        C = CvL * (1.0 - B)
+        BvC = ak.Array(np.where(CvB > 0, 1.0 - CvB, -1.0))
+        HFvLF = ak.Array(C + B)
+
     return HFvLF, BvC
 
 
@@ -334,6 +347,46 @@ btag_wp_dict = {
                 "M": [0.160, 0.306],
                 "T": [0.492, 0.259],
             },
+            "2D": {
+                "No": [0.0, 1.0, 0.0, 1.0],
+                "L0": [
+                    0.0,
+                    0.264,
+                    0.0,
+                    1.0,
+                ],  # [HFvLF low, HFvLF high, BvC low, BvC high]
+                "C0": [0.168, 0.330, 0.000, 1.000],
+                "C1": [0.330, 0.690, 0.000, 1.000],
+                "C2": [0.690, 1.000, 0.124, 0.357],
+                "C3": [0.690, 1.000, 0.047, 0.124],
+                "C4": [0.690, 1.000, 0.000, 0.047],
+                "B0": [0.690, 1.000, 0.357, 0.750],
+                "B1": [0.690, 1.000, 0.750, 0.908],
+                "B2": [0.690, 1.000, 0.908, 0.967],
+                "B3": [0.690, 1.000, 0.967, 0.990],
+                "B4": [0.690, 1.000, 0.990, 1.000],
+                "mapping": {
+                    "L0": 0,
+                    "C0": 1,
+                    "C1": 2,
+                    "C2": 3,
+                    "C3": 4,
+                    "C4": 5,
+                    "B0": 6,
+                    "B1": 7,
+                    "B2": 8,
+                    "B3": 9,
+                    "B4": 10,
+                },
+                "jet_pt_bins": [
+                    (25, 35),
+                    (35, 50),
+                    (50, 70),
+                    (70, 90),
+                    (90, 120),
+                    (120, 10000),
+                ],
+            },
         },
     },
     "2022_Summer22EE": {
@@ -383,6 +436,46 @@ btag_wp_dict = {
                 "L": [0.054, 0.182],
                 "M": [0.160, 0.304],
                 "T": [0.491, 0.258],
+            },
+            "2D": {
+                "No": [0.0, 1.0, 0.0, 1.0],
+                "L0": [
+                    0.0,
+                    0.168,
+                    0.0,
+                    1.0,
+                ],  # [HFvLF low, HFvLF high, BvC low, BvC high]
+                "C0": [0.168, 0.336, 0.000, 1.000],
+                "C1": [0.336, 0.706, 0.000, 1.000],
+                "C2": [0.706, 1.000, 0.131, 0.373],
+                "C3": [0.706, 1.000, 0.051, 0.131],
+                "C4": [0.706, 1.000, 0.000, 0.051],
+                "B0": [0.706, 1.000, 0.373, 0.792],
+                "B1": [0.706, 1.000, 0.792, 0.928],
+                "B2": [0.706, 1.000, 0.928, 0.976],
+                "B3": [0.706, 1.000, 0.976, 0.992],
+                "B4": [0.706, 1.000, 0.992, 1.000],
+                "mapping": {
+                    "L0": 0,
+                    "C0": 1,
+                    "C1": 2,
+                    "C2": 3,
+                    "C3": 4,
+                    "C4": 5,
+                    "B0": 6,
+                    "B1": 7,
+                    "B2": 8,
+                    "B3": 9,
+                    "B4": 10,
+                },
+                "jet_pt_bins": [
+                    (25, 35),
+                    (35, 50),
+                    (50, 70),
+                    (70, 90),
+                    (90, 120),
+                    (120, 10000),
+                ],
             },
         },
     },
@@ -437,6 +530,46 @@ btag_wp_dict = {
                 "T": [0.434, 0.300],
                 "XT": [0.634, 0.549],
             },
+            "2D": {
+                "No": [0.0, 1.0, 0.0, 1.0],
+                "L0": [
+                    0.0,
+                    0.264,
+                    0.0,
+                    1.0,
+                ],  # [HFvLF low, HFvLF high, BvC low, BvC high]
+                "C0": [0.264, 0.448, 0.000, 1.000],
+                "C1": [0.448, 0.766, 0.000, 1.000],
+                "C2": [0.766, 1.000, 0.028, 0.094],
+                "C3": [0.766, 1.000, 0.010, 0.028],
+                "C4": [0.766, 1.000, 0.000, 0.010],
+                "B0": [0.766, 1.000, 0.094, 0.690],
+                "B1": [0.766, 1.000, 0.690, 0.918],
+                "B2": [0.766, 1.000, 0.918, 0.978],
+                "B3": [0.766, 1.000, 0.978, 0.994],
+                "B4": [0.766, 1.000, 0.994, 1.000],
+                "mapping": {
+                    "L0": 0,
+                    "C0": 1,
+                    "C1": 2,
+                    "C2": 3,
+                    "C3": 4,
+                    "C4": 5,
+                    "B0": 6,
+                    "B1": 7,
+                    "B2": 8,
+                    "B3": 9,
+                    "B4": 10,
+                },
+                "jet_pt_bins": [
+                    (25, 35),
+                    (35, 50),
+                    (50, 70),
+                    (70, 90),
+                    (90, 120),
+                    (120, 10000),
+                ],
+            },
         },
     },
     "2023_Summer23BPix": {
@@ -489,6 +622,46 @@ btag_wp_dict = {
                 "M": [0.149, 0.358],
                 "T": [0.436, 0.303],
                 "XT": [0.634, 0.5552],
+            },
+            "2D": {
+                "No": [0.0, 1.0, 0.0, 1.0],
+                "L0": [
+                    0.0,
+                    0.264,
+                    0.0,
+                    1.0,
+                ],  # [HFvLF low, HFvLF high, BvC low, BvC high]
+                "C0": [0.264, 0.448, 0.000, 1.000],
+                "C1": [0.448, 0.766, 0.000, 1.000],
+                "C2": [0.766, 1.000, 0.028, 0.094],
+                "C3": [0.766, 1.000, 0.010, 0.028],
+                "C4": [0.766, 1.000, 0.000, 0.010],
+                "B0": [0.766, 1.000, 0.094, 0.690],
+                "B1": [0.766, 1.000, 0.690, 0.918],
+                "B2": [0.766, 1.000, 0.918, 0.978],
+                "B3": [0.766, 1.000, 0.978, 0.994],
+                "B4": [0.766, 1.000, 0.994, 1.000],
+                "mapping": {
+                    "L0": 0,
+                    "C0": 1,
+                    "C1": 2,
+                    "C2": 3,
+                    "C3": 4,
+                    "C4": 5,
+                    "B0": 6,
+                    "B1": 7,
+                    "B2": 8,
+                    "B3": 9,
+                    "B4": 10,
+                },
+                "jet_pt_bins": [
+                    (25, 35),
+                    (35, 50),
+                    (50, 70),
+                    (70, 90),
+                    (90, 120),
+                    (120, 10000),
+                ],
             },
         },
     },

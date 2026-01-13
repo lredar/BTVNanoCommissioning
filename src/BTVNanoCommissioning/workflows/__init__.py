@@ -118,6 +118,12 @@ workflows["ectag_Wc_sf"] = partial(CTAGWcTTValidSFProcessor, selectionModifier="
 workflows["2D_e_Wc_sf"] = partial(
     _2DWcValidSFProcessor, selectionModifier="WcE_2D"
 )
+workflows["2D_mu_Wc_sf_test"] = partial(
+    _2DWcValidSFProcessor, selectionModifier="WcM_2D"
+) 
+workflows["2D_e_Wc_sf_test"] = partial(
+    _2DWcValidSFProcessor, selectionModifier="WcE_2D"
+) 
 workflows["ctag_Wc_WP_sf"] = partial(
     CTAGWcTTValidSFProcessor, selectionModifier="cutbased_WcM"
 )

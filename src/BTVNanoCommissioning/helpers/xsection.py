@@ -422,6 +422,103 @@ xsection = [
         "energy": "13.6",
         "comment": "https://twiki.cern.ch/twiki/bin/viewauth/CMS/MATRIXCrossSectionsat13p6TeV with PDG 2025 values",
     },
+
+    # NLO samples of WtoLNu
+    {
+        "process_name": "WtoLNu-2Jets_0J_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "55760.0",
+        "energy": "13.6",
+    },
+    {
+        "process_name": "WtoLNu-2Jets_1J_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "9529.0",
+        "energy": "13.6",
+    },
+    {
+        "process_name": "WtoLNu-2Jets_2J_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "3532.0",
+        "energy": "13.6",
+    },
+    {
+        "process_name": "WtoENu-2Jets_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "68430.0",
+        "energy": "13.6",
+    },
+    {
+        "process_name": "WtoMuNu-2Jets_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "68100.0",
+        "energy": "13.6",
+    },
+    {
+        "process_name": "WtoTauNu-2Jets_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "68080.0",
+        "energy": "13.6",
+    },
+    {
+        "process_name": "WtoENu-2Jets_Bin-0J_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "55850.0",
+        "energy": "13.6",
+    },
+    {
+        "process_name": "WtoMuNu-2Jets_Bin-0J_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "55920.0",
+        "energy": "13.6",
+    },
+    {
+        "process_name": "WtoTauNu-2Jets_Bin-0J_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "55890.0",
+        "energy": "13.6",
+    },
+    {
+        "process_name": "WtoLNu-2Jets_Bin-1J-PTLNu-40to100_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "4211",
+        "energy": "13.6",
+    },
+    {
+        "process_name": "WtoLNu-2Jets_Bin-1J-PTLNu-100to200_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "342.3",
+        "energy": "13.6",
+    },
+    {
+        "process_name": "WtoLNu-2Jets_Bin-1J-PTLNu-200to400_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "21.84",
+        "energy": "13.6",
+    },
+    {
+        "process_name": "WtoLNu-2Jets_Bin-1J-PTLNu-400to600_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "0.6845",
+        "energy": "13.6",
+    },
+    {
+        "process_name": "WtoLNu-2Jets_Bin-1J-PTLNu-600_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "0.07753",
+        "energy": "13.6",
+    },
+    {
+        "process_name": "WtoLNu-2Jets_Bin-2J-PTLNu-40to100_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "1581",
+        "energy": "13.6",
+    },
+    {
+        "process_name": "WtoLNu-2Jets_Bin-2J-PTLNu-100to200_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "411.1",
+        "energy": "13.6",
+    },
+    {
+        "process_name": "WtoLNu-2Jets_Bin-2J-PTLNu-200to400_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "53.59",
+        "energy": "13.6",
+    },
+    {
+        "process_name": "WtoLNu-2Jets_Bin-2J-PTLNu-400to600_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "3.099",
+        "energy": "13.6",
+    },
+    {
+        "process_name": "WtoLNu-2Jets_Bin-2J-PTLNu-600_TuneCP5_13p6TeV_amcatnloFXFX-pythia8",
+        "cross_section": "0.5259",
+        "energy": "13.6",
+    },
     {
         "process_name": "WW_TuneCP5_13p6TeV-pythia8",
         "cross_section": "75.9",

@@ -160,7 +160,7 @@ class NanoProcessor(processor.ProcessorABC):
             events.Jet.metric_table(neg_dilep) > 0.4, axis=2, mask_identity=True
         )
         jet_sel = ak.fill_none(
-            jet_id(events, self._campaign) & pl_iso & nl_iso,
+            jet_id(events, self._campaign, min_pt=20) & pl_iso & nl_iso,
             False,
             axis=-1,
         )
@@ -182,7 +182,7 @@ class NanoProcessor(processor.ProcessorABC):
         )
         event_jet = events.Jet[
             ak.fill_none(
-                jet_id(events, self._campaign, min_pt=25) & pl_iso & nl_iso,
+                jet_id(events, self._campaign, min_pt=20) & pl_iso & nl_iso,
                 False,
                 axis=-1,
             )
@@ -264,46 +264,46 @@ class NanoProcessor(processor.ProcessorABC):
         if "2D" in self.selMod:
             pruned_ev["dilep", "ptratio"] = pruned_ev.dilep.pt / sel_jet.pt
             nj = 1
+            if "btagUParTAK4B" in pruned_ev.SelJet.fields:
+                tagger = "UParTAK4"
+            else:
+                tagger = "PNet"
             for i in range(nj):
-                btagUParTAK4HFvLF, btagUParTAK4BvC = calculate_new_discriminators(
-                    pruned_ev.SelJet[:, i]
-                )
+                btagHFvLF, btagBvC = calculate_new_discriminators(pruned_ev.SelJet[:, i], tagger=tagger)
                 wp2D = ak.Array(
                     [
                         get_wp_2D(
-                            btagUParTAK4HFvLF[i],
-                            btagUParTAK4BvC[i],
+                            btagHFvLF[i],
+                            btagBvC[i],
                             self._year,
                             self._campaign,
-                            "UParTAK4",
+                            f"{tagger}",
                         )
-                        for i in range(len(btagUParTAK4HFvLF))
+                        for i in range(len(btagHFvLF))
                     ]
                 )
-                pruned_ev[f"btagUParTAK4HFvLF_{i}"] = btagUParTAK4HFvLF
-                pruned_ev[f"btagUParTAK4BvC_{i}"] = btagUParTAK4BvC
-                pruned_ev[f"btagUParTAK4HFvLFt_{i}"] = ak.Array(
+                pruned_ev[f"btag{tagger}HFvLF_{i}"] = btagHFvLF
+                pruned_ev[f"btag{tagger}BvC_{i}"] = btagBvC
+                pruned_ev[f"btag{tagger}HFvLFt_{i}"] = ak.Array(
                     np.where(
-                        btagUParTAK4HFvLF > 0.0,
-                        1.0 - (1.0 - btagUParTAK4HFvLF) ** 0.5,
+                        btagHFvLF > 0.0,
+                        1.0 - (1.0 - btagHFvLF) ** 0.5,
                         -1.0,
                     )
                 )
-                pruned_ev[f"btagUParTAK4BvCt_{i}"] = ak.Array(
+                pruned_ev[f"btag{tagger}BvCt_{i}"] = ak.Array(
                     np.where(
-                        btagUParTAK4BvC > 0.0,
-                        1.0 - (1.0 - btagUParTAK4BvC) ** 0.5,
+                        btagBvC > 0.0,
+                        1.0 - (1.0 - btagBvC) ** 0.5,
                         -1.0,
                     )
                 )
-                pruned_ev[f"btagUParTAK42D_{i}"] = wp2D
-                jet_pt_bins = btag_wp_dict[self._year + "_" + self._campaign][
-                    "UParTAK4"
-                ]["2D"]["jet_pt_bins"]
+                pruned_ev[f"btag{tagger}2D_{i}"] = wp2D
+                jet_pt_bins = btag_wp_dict[self._year + "_" + self._campaign][tagger][
+                    "2D"
+                ]["jet_pt_bins"]
                 for jet_pt_bin in jet_pt_bins:
-                    pruned_ev[
-                        f"btagUParTAK42D_pt{jet_pt_bin[0]}to{jet_pt_bin[1]}_{i}"
-                    ] = [
+                    pruned_ev[f"btag{tagger}2D_pt{jet_pt_bin[0]}to{jet_pt_bin[1]}_{i}"] = [
                         (
                             wp2D[ijet]
                             if pt is not None
@@ -313,7 +313,7 @@ class NanoProcessor(processor.ProcessorABC):
                         )
                         for ijet, pt in enumerate(pruned_ev.SelJet[:, i].pt)
                     ]
-
+                    
         ####################
         #     Output       #
         ####################
