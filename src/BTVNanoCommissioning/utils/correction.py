@@ -1464,8 +1464,11 @@ def btagSFs(event, correct_map, weights, SFtype, syst=False):
                             jet.btagDeepCvB,
                         ),
                     )
-                elif SFtype == "UParTAK4C":
-                    jet_2DWP = event[f"btagUParTAK42D_{nj}"]  # L0
+                elif SFtype == "UParTAK4C" or SFtype == "PNetC":
+                    if SFtype == "UParTAK4C":
+                        jet_2DWP = event[f"btagUParTAK4_{nj}"]  # L0
+                    elif SFtype == "PNetC":
+                        jet_2DWP = event[f"btagPNet2D_{nj}"]  # L0
                     jet_2DWP = [40 if wp == 1 else wp for wp in jet_2DWP]  # C0
                     jet_2DWP = [41 if wp == 2 else wp for wp in jet_2DWP]  # C1
                     jet_2DWP = [42 if wp == 3 else wp for wp in jet_2DWP]  # C2
@@ -1477,8 +1480,12 @@ def btagSFs(event, correct_map, weights, SFtype, syst=False):
                     jet_2DWP = [53 if wp == 9 else wp for wp in jet_2DWP]  # B3
                     jet_2DWP = [54 if wp == 10 else wp for wp in jet_2DWP]  # B4
                     jet_2DWP = ak.fill_none(jet_2DWP, 0)
+                    #redefine -1 one values to 0 for correct handling in np.where
+                    jet_2DWP = np.array([0 if wp == -1 else wp for wp in jet_2DWP])
                     jet_eta = ak.fill_none(jet.eta, 0)
                     jet_pt = ak.fill_none(jet.pt, 0)
+                    masknone = masknone | (jet_2DWP == -1)
+                   
                     tmp_sfs = np.where(
                         masknone,
                         1.0,
@@ -2591,7 +2598,8 @@ def weight_manager(pruned_ev, SF_map, isSyst):
         if (
             "ctag" in SF_map.keys() or "btag" in SF_map.keys()
         ) and "SelJet" in pruned_ev.fields:
-            btagSFs(pruned_ev, SF_map, weights, "UParTAK4C", syst_wei)
+            btagSFs(pruned_ev, SF_map, weights, "PNetC", syst_wei)
+            # btagSFs(pruned_ev, SF_map, weights, "UParTAK4C", syst_wei)
             # btagSFs(pruned_ev, SF_map, weights, "DeepJetC", syst_wei)
             # btagSFs(pruned_ev, SF_map, weights, "DeepJetB", syst_wei)
             # btagSFs(pruned_ev, SF_map, weights, "DeepCSVB", syst_wei)

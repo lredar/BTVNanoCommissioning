@@ -72,7 +72,7 @@ def get_discriminators():
         "btagPNetHFvLF",
         "btagPNetBvC",
         "btagPNet2D",
-        "btagPNet2D_pt25to35",
+        "btagPNet2D_pt20to35",
         "btagPNet2D_pt35to50",
         "btagPNet2D_pt50to70",
         "btagPNet2D_pt70to90",

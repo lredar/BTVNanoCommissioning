@@ -21,8 +21,8 @@ from BTVNanoCommissioning.utils.array_writer import array_writer
 from BTVNanoCommissioning.utils.selection import (
     HLT_helper,
     jet_id,
-    # mu_idiso,
-    # ele_mvatightid,
+    mu_idiso,
+    ele_mvatightid,
     mu_promptmvaid,
     ele_promptmvaid,
     MET_filters,
@@ -123,11 +123,11 @@ class NanoProcessor(processor.ProcessorABC):
         ## Lepton cuts
         if self.selMod == "semittE":
             event_iso_lep = events.Electron[
-                (events.Electron.pt > 32) & ele_promptmvaid(events, self._campaign)
+                (events.Electron.pt > 32) & ele_mvatightid(events, self._campaign)
             ]
         elif self.selMod == "semittM":
             event_iso_lep = events.Muon[
-                (events.Muon.pt > 30) & mu_promptmvaid(events, self._campaign)
+                (events.Muon.pt > 30) & mu_idiso(events, self._campaign)
             ]
             event_soft_mu = events.Muon[
                 (events.Muon.pt > 5)
@@ -166,12 +166,13 @@ class NanoProcessor(processor.ProcessorABC):
         event_jet = ak.pad_none(event_jet, 4, axis=1)
 
         # b-tagged jets requirement
-        WP = btag_wp_dict[self._year + "_" + self._campaign]["UParTAK4"]["2D"]
+        tagger = "PNet"
+        WP = btag_wp_dict[self._year + "_" + self._campaign]["PNet"]["2D"]
         btagUParTAK4HFvLF1, btagUParTAK4BvC1 = calculate_new_discriminators(
-            event_jet[:, 0]
+            event_jet[:, 0], tagger = tagger
         )
         btagUParTAK4HFvLF2, btagUParTAK4BvC2 = calculate_new_discriminators(
-            event_jet[:, 1]
+            event_jet[:, 1], tagger = tagger
         )
         wp2D_1 = ak.Array(
             [
@@ -180,7 +181,7 @@ class NanoProcessor(processor.ProcessorABC):
                     btagUParTAK4BvC1[i],
                     self._year,
                     self._campaign,
-                    "UParTAK4",
+                    tagger,
                 )
                 for i in range(len(btagUParTAK4HFvLF1))
             ]
@@ -192,7 +193,7 @@ class NanoProcessor(processor.ProcessorABC):
                     btagUParTAK4BvC2[i],
                     self._year,
                     self._campaign,
-                    "UParTAK4",
+                    tagger,
                 )
                 for i in range(len(btagUParTAK4HFvLF2))
             ]
@@ -277,17 +278,17 @@ class NanoProcessor(processor.ProcessorABC):
         pruned_ev[f"ncjet"] = ak.zeros_like(pruned_ev["SelJet"][:, 0].pt)
         for i in range(4):
             ith_jets = pruned_ev.SelJet[:, i]
-            btagUParTAK4HFvLF, btagUParTAK4BvC = calculate_new_discriminators(ith_jets)
+            btagHFvLF, btagBvC = calculate_new_discriminators(ith_jets, tagger=tagger)
             wp2D = ak.Array(
                 [
                     get_wp_2D(
-                        btagUParTAK4HFvLF[i],
-                        btagUParTAK4BvC[i],
+                        btagHFvLF[i],
+                        btagBvC[i],
                         self._year,
                         self._campaign,
-                        "UParTAK4",
+                        tagger,
                     )
-                    for i in range(len(btagUParTAK4HFvLF))
+                    for i in range(len(btagHFvLF))
                 ]
             )
             nbjet = np.where(
@@ -301,24 +302,24 @@ class NanoProcessor(processor.ProcessorABC):
                 ncjet = ak.fill_none(ncjet, 0)
             pruned_ev[f"nbjet"] = pruned_ev[f"nbjet"] + nbjet
             pruned_ev[f"ncjet"] = pruned_ev[f"ncjet"] + ncjet
-            pruned_ev[f"btagUParTAK4HFvLF_{i}"] = btagUParTAK4HFvLF
-            pruned_ev[f"btagUParTAK4BvC_{i}"] = btagUParTAK4BvC
-            pruned_ev[f"btagUParTAK4HFvLFt_{i}"] = ak.Array(
+            pruned_ev[f"btag{tagger}HFvLF_{i}"] = btagHFvLF
+            pruned_ev[f"btag{tagger}BvC_{i}"] = btagBvC
+            pruned_ev[f"btag{tagger}HFvLFt_{i}"] = ak.Array(
                 np.where(
-                    btagUParTAK4HFvLF >= 0.0,
-                    1.0 - (1.0 - btagUParTAK4HFvLF) ** 0.5,
+                    btagHFvLF >= 0.0,
+                    1.0 - (1.0 - btagHFvLF) ** 0.5,
                     -1.0,
                 )
             )
-            pruned_ev[f"btagUParTAK4BvCt_{i}"] = ak.Array(
+            pruned_ev[f"btag{tagger}BvCt_{i}"] = ak.Array(
                 np.where(
-                    btagUParTAK4BvC >= 0.0, 1.0 - (1.0 - btagUParTAK4BvC) ** 0.5, -1.0
+                    btagBvC >= 0.0, 1.0 - (1.0 - btagBvC) ** 0.5, -1.0
                 )
             )
-            pruned_ev[f"btagUParTAK42D_{i}"] = wp2D
+            pruned_ev[f"btag{tagger}2D_{i}"] = wp2D
             jet_pt_bins = WP["jet_pt_bins"]
             for jet_pt_bin in jet_pt_bins:
-                pruned_ev[f"btagUParTAK42D_pt{jet_pt_bin[0]}to{jet_pt_bin[1]}_{i}"] = [
+                pruned_ev[f"btag{tagger}2D_pt{jet_pt_bin[0]}to{jet_pt_bin[1]}_{i}"] = [
                     (
                         wp2D[ijet]
                         if pt is not None and jet_pt_bin[0] < pt and pt < jet_pt_bin[1]

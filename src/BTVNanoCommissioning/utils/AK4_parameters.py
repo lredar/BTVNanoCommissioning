@@ -55,10 +55,12 @@ correction_config = {
         "MUO": {
             "mu_ID": "NUM_TightID_DEN_TrackerMuons",
             "mu_Iso": "NUM_TightPFIso_DEN_TightID",
+            "mu_Trig": "NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight",
         },
         "EGM": {
-            "ele_ID 2022Re-recoBCD Electron-ID-SF": "Tight",
+            "ele_ID 2022Re-recoBCD Electron-ID-SF": "wp80iso",
             "ele_Reco 2022Re-recoBCD Electron-ID-SF": "",
+            "ele_Trig 2022Re-recoBCD Electron-HLT-SF": "HLT_SF_Ele30_MVAiso80ID"
         },
         "JPCalib": {
             "Run2022C": "calibeHistoWrite_Data2022C_NANO130X_v1.root",
@@ -71,6 +73,7 @@ correction_config = {
             "Scale",
             "SmearAndSyst",
         ],
+        #"BTV": ["ctag", "ParticleNetAK4_pseudocontinuous"],
     },
     "Summer22EE": {
         "DC": "Cert_Collisions2022_355100_362760_Golden.json",
@@ -84,10 +87,12 @@ correction_config = {
         "MUO": {
             "mu_ID": "NUM_TightID_DEN_TrackerMuons",
             "mu_Iso": "NUM_TightPFIso_DEN_TightID",
+            "mu_Trig": "NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight",
         },
         "EGM": {
-            "ele_ID 2022Re-recoE+PromptFG Electron-ID-SF": "Tight",
+            "ele_ID 2022Re-recoE+PromptFG Electron-ID-SF": "wp80iso",
             "ele_Reco 2022Re-recoE+PromptFG Electron-ID-SF": "",
+            "ele_Trig 2022Re-recoE+PromptFG Electron-HLT-SF": "HLT_SF_Ele30_MVAiso80ID"
         },
         "jetveto": {"Summer22EE_23Sep2023_RunEFG_V1": "jetvetomap"},
         # use for BTA production, jet probablity
@@ -102,6 +107,7 @@ correction_config = {
             "Scale",
             "SmearAndSyst",
         ],
+        #"BTV": ["ctag", "ParticleNetAK4_pseudocontinuous"],
     },
     "Summer23": {
         "DC": "Cert_Collisions2023_366442_370790_Golden.json",
@@ -142,31 +148,36 @@ correction_config = {
         "MUO": {
             "mu_ID": "NUM_TightID_DEN_TrackerMuons",
             "mu_Iso": "NUM_TightPFIso_DEN_TightID",
+            "mu_Trig": "NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight",
         },
         "EGM": {
-            "ele_ID 2023PromptC Electron-ID-SF": "Tight",
+            "ele_ID 2023PromptC Electron-ID-SF": "wp80iso",
             "ele_Reco 2023PromptC Electron-ID-SF": "",
+            "ele_Trig 2023PromptC Electron-HLT-SF": "HLT_SF_Ele30_MVAiso80ID",
         },
         "muonSS": "",
         "electronSS": [
             "Scale",
             "SmearAndSyst",
         ],
+        #"BTV": ["ctag", "ParticleNetAK4_pseudocontinuous"],
     },
     "Summer23BPix": {
         "DC": "Cert_Collisions2023_366442_370790_Golden.json",
         "LUM": "puwei_Summer23BPix.histo.root",
         "JME": {
-            "MC": "Summer23BPixPrompt23_V1 Summer23BPixPrompt23_RunD_JRV1",
-            "Run2023D": "Summer23BPixPrompt23_RunD_V1",
+            "MC": "Summer23BPixPrompt23_V3 Summer23BPixPrompt23_RunD_JRV1",
+            "Run2023D": "Summer23BPixPrompt23_RunD_V3",
         },
         "MUO": {
             "mu_ID": "NUM_TightID_DEN_TrackerMuons",
             "mu_Iso": "NUM_TightPFIso_DEN_TightID",
+            "mu_Trig": "NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight",
         },
         "EGM": {
-            "ele_ID 2023PromptD Electron-ID-SF": "Tight",
+            "ele_ID 2023PromptD Electron-ID-SF": "wp80iso",
             "ele_Reco 2023PromptD Electron-ID-SF": "",
+            "ele_Trig 2023PromptD Electron-HLT-SF": "HLT_SF_Ele30_MVAiso80ID",
         },
         # This is from Mikko https://indico.cern.ch/event/1315421/contributions/5532963/attachments/2697975/4683826/2023_08_16_jetvetomaps_v3.pdf
         "jetveto": {"Summer23BPixPrompt23_RunD_V1": "jetvetomap"},
@@ -180,6 +191,7 @@ correction_config = {
             "Scale",
             "SmearAndSyst",
         ],
+        #"BTV": ["ctag", "ParticleNetAK4_pseudocontinuous"],
     },
     "Summer24": {
         "DC": "Cert_Collisions2024_378981_386951_Golden.json",
