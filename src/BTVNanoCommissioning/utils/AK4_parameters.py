@@ -73,7 +73,7 @@ correction_config = {
             "Scale",
             "SmearAndSyst",
         ],
-        #"BTV": ["ctag", "ParticleNetAK4_pseudocontinuous"],
+        # "BTV": ["ctag", "ParticleNetAK4_pseudocontinuous"],
     },
     "Summer22EE": {
         "DC": "Cert_Collisions2022_355100_362760_Golden.json",
@@ -107,35 +107,14 @@ correction_config = {
             "Scale",
             "SmearAndSyst",
         ],
-        #"BTV": ["ctag", "ParticleNetAK4_pseudocontinuous"],
+        # "BTV": ["ctag", "ParticleNetAK4_pseudocontinuous"],
     },
     "Summer23": {
         "DC": "Cert_Collisions2023_366442_370790_Golden.json",
         "LUM": "puwei_Summer23.histo.root",
         "JME": {
-            "name": "V1_AK4PFPuppi",
-            "MC": [
-                "Summer23Prompt23_V1_MC_L1FastJet_AK4PFPuppi",
-                "Summer23Prompt23_V1_MC_L2Relative_AK4PFPuppi",
-                "Summer23Prompt23_V1_MC_L2Residual_AK4PFPuppi",
-                "Summer23Prompt23_V1_MC_L3Absolute_AK4PFPuppi",
-                "Summer23Prompt23_V1_MC_UncertaintySources_AK4PFPuppi",
-                "Summer23Prompt23_V1_MC_Uncertainty_AK4PFPuppi",
-                "Summer23Prompt23_JRV1_MC_SF_AK4PFPuppi",
-                "Summer23Prompt23_JRV1_MC_PtResolution_AK4PFPuppi",
-            ],
-            "dataCv123": [
-                "Summer23Prompt23_RunCv123_V1_DATA_L1FastJet_AK4PFPuppi",
-                "Summer23Prompt23_RunCv123_V1_DATA_L2Relative_AK4PFPuppi",
-                "Summer23Prompt23_RunCv123_V1_DATA_L3Absolute_AK4PFPuppi",
-                "Summer23Prompt23_RunCv123_V1_DATA_L2L3Residual_AK4PFPuppi",
-            ],
-            "dataCv4": [
-                "Summer23Prompt23_RunCv4_V1_DATA_L1FastJet_AK4PFPuppi",
-                "Summer23Prompt23_RunCv4_V1_DATA_L2Relative_AK4PFPuppi",
-                "Summer23Prompt23_RunCv4_V1_DATA_L3Absolute_AK4PFPuppi",
-                "Summer23Prompt23_RunCv4_V1_DATA_L2L3Residual_AK4PFPuppi",
-            ],
+            "MC": "Summer23Prompt23_V2 Summer23Prompt23_RunCv1234_JRV1",
+            "Run2023C": "Summer23Prompt23_V2",
         },
         "jetveto": {"Summer23Prompt23_RunC_V1": "jetvetomap"},
         "JPCalib": {
@@ -160,14 +139,14 @@ correction_config = {
             "Scale",
             "SmearAndSyst",
         ],
-        #"BTV": ["ctag", "ParticleNetAK4_pseudocontinuous"],
+        "BTV": ["ctag", "ParticleNetAK4_pseudocontinuous"],
     },
     "Summer23BPix": {
         "DC": "Cert_Collisions2023_366442_370790_Golden.json",
         "LUM": "puwei_Summer23BPix.histo.root",
         "JME": {
             "MC": "Summer23BPixPrompt23_V3 Summer23BPixPrompt23_RunD_JRV1",
-            "Run2023D": "Summer23BPixPrompt23_RunD_V3",
+            "Run2023D": "Summer23BPixPrompt23_V3",
         },
         "MUO": {
             "mu_ID": "NUM_TightID_DEN_TrackerMuons",
@@ -191,7 +170,7 @@ correction_config = {
             "Scale",
             "SmearAndSyst",
         ],
-        #"BTV": ["ctag", "ParticleNetAK4_pseudocontinuous"],
+        # "BTV": ["ctag", "ParticleNetAK4_pseudocontinuous"],
     },
     "Summer24": {
         "DC": "Cert_Collisions2024_378981_386951_Golden.json",
@@ -211,7 +190,7 @@ correction_config = {
         "MUO": {
             "mu_ID": "NUM_TightID_DEN_TrackerMuons",
             "mu_Iso": "NUM_TightPFIso_DEN_TightID",
-            #"mu_Iso": "NUM_promptMVA_WP64ID_DEN_TightID",
+            # "mu_Iso": "NUM_promptMVA_WP64ID_DEN_TightID",
             # TODO: not yet available for 2024 (August 2025)
             # "mu_Trig": "NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight",
         },
