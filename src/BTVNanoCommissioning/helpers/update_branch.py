@@ -148,7 +148,7 @@ def missing_branch(events, campaign=None):
             events.Jet,
             {"btagRobustParTAK4CvNotB": jets.btagRobustParTAK4CvNotB},
         )
-    for tagger in ("UParTAK4",):
+    for tagger in ("PNet",):
         bvc_name = f"btag{tagger}BvC"
         cvb_name = f"btag{tagger}CvB"
         if not hasattr(events.Jet, bvc_name) and hasattr(events.Jet, cvb_name):
@@ -163,7 +163,7 @@ def missing_branch(events, campaign=None):
                 -1,
                 1.0 - np.sqrt(1.0 - jets[bvc_name]),
             )
-            for lo, hi in ((25.0, 35.0), (35.0, 50.0), (50.0, 70.0), (70.0, 90.0), (90.0, 120.0)):
+            for lo, hi in ((20.0, 35.0), (35.0, 50.0), (50.0, 70.0), (70.0, 90.0), (90.0, 120.0)):
                 jets[f"{bvc_name}_pt{int(lo)}to{int(hi)}"] = ak.where(
                     (jets.pt < lo) | (jets.pt >= hi),
                     -2,
@@ -176,7 +176,7 @@ def missing_branch(events, campaign=None):
             )
 
             update_map = {bvc_name: jets[bvc_name], f"{bvc_name}t": jets[f"{bvc_name}t"]}
-            for lo, hi in ((25, 35), (35, 50), (50, 70), (70, 90), (90, 120)):
+            for lo, hi in ((20, 35), (35, 50), (50, 70), (70, 90), (90, 120)):
                 update_map[f"{bvc_name}_pt{lo}to{hi}"] = jets[f"{bvc_name}_pt{lo}to{hi}"]
             update_map[f"{bvc_name}_pt120toinf"] = jets[f"{bvc_name}_pt120toinf"]
             events.Jet = update(events.Jet, update_map)
@@ -228,7 +228,7 @@ def missing_branch(events, campaign=None):
                     1.0 - np.sqrt(1.0 - jets[hfvlf_name]),
                 )
 
-                for lo, hi in ((25.0, 35.0), (35.0, 50.0), (50.0, 70.0), (70.0, 90.0), (90.0, 120.0)):
+                for lo, hi in ((20.0, 35.0), (35.0, 50.0), (50.0, 70.0), (70.0, 90.0), (90.0, 120.0)):
                     jets[f"{hfvlf_name}_pt{int(lo)}to{int(hi)}"] = ak.where(
                         (jets.pt < lo) | (jets.pt >= hi),
                         -2,
@@ -241,7 +241,7 @@ def missing_branch(events, campaign=None):
                 )
 
                 update_map = {hfvlf_name: jets[hfvlf_name], f"{hfvlf_name}t": jets[f"{hfvlf_name}t"]}
-                for lo, hi in ((25, 35), (35, 50), (50, 70), (70, 90), (90, 120)):
+                for lo, hi in ((20, 35), (35, 50), (50, 70), (70, 90), (90, 120)):
                     update_map[f"{hfvlf_name}_pt{lo}to{hi}"] = jets[f"{hfvlf_name}_pt{lo}to{hi}"]
                 update_map[f"{hfvlf_name}_pt120toinf"] = jets[f"{hfvlf_name}_pt120toinf"]
                 events.Jet = update(events.Jet, update_map)
@@ -271,7 +271,7 @@ def missing_branch(events, campaign=None):
                     1.0 - np.sqrt(1.0 - jets[hfvlf_name]),
                 )
 
-                for lo, hi in ((25.0, 35.0), (35.0, 50.0), (50.0, 70.0), (70.0, 90.0), (90.0, 120.0)):
+                for lo, hi in ((20.0, 35.0), (35.0, 50.0), (50.0, 70.0), (70.0, 90.0), (90.0, 120.0)):
                     jets[f"{hfvlf_name}_pt{int(lo)}to{int(hi)}"] = ak.where(
                         (jets.pt < lo) | (jets.pt >= hi),
                         -2,
@@ -284,7 +284,7 @@ def missing_branch(events, campaign=None):
                 )
 
                 update_map = {hfvlf_name: jets[hfvlf_name], f"{hfvlf_name}t": jets[f"{hfvlf_name}t"]}
-                for lo, hi in ((25, 35), (35, 50), (50, 70), (70, 90), (90, 120)):
+                for lo, hi in ((20, 35), (35, 50), (50, 70), (70, 90), (90, 120)):
                     update_map[f"{hfvlf_name}_pt{lo}to{hi}"] = jets[f"{hfvlf_name}_pt{lo}to{hi}"]
                 update_map[f"{hfvlf_name}_pt120toinf"] = jets[f"{hfvlf_name}_pt120toinf"]
                 events.Jet = update(events.Jet, update_map)
@@ -315,7 +315,7 @@ def missing_branch(events, campaign=None):
                 nj,
             )
 
-            for lo, hi in ((25.0, 35.0), (35.0, 50.0), (50.0, 70.0), (70.0, 90.0), (90.0, 120.0)):
+            for lo, hi in ((20.0, 35.0), (35.0, 50.0), (50.0, 70.0), (70.0, 90.0), (90.0, 120.0)):
                 jets[f"{bin2d_name}_pt{int(lo)}to{int(hi)}"] = ak.where(
                     (jets.pt < lo) | (jets.pt >= hi),
                     -2,
@@ -328,7 +328,7 @@ def missing_branch(events, campaign=None):
             )
 
             update_map = {bin2d_name: jets[bin2d_name]}
-            for lo, hi in ((25, 35), (35, 50), (50, 70), (70, 90), (90, 120)):
+            for lo, hi in ((20, 35), (35, 50), (50, 70), (70, 90), (90, 120)):
                 update_map[f"{bin2d_name}_pt{lo}to{hi}"] = jets[f"{bin2d_name}_pt{lo}to{hi}"]
             update_map[f"{bin2d_name}_pt120toinf"] = jets[f"{bin2d_name}_pt120toinf"]
             events.Jet = update(events.Jet, update_map)

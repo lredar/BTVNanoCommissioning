@@ -170,7 +170,7 @@ class NanoProcessor(processor.ProcessorABC):
 
         ## Jet cuts
         jet_sel = ak.fill_none(
-            jet_id(events, self._campaign, min_pt=25)
+            jet_id(events, self._campaign, min_pt=20)
             & (
                 ak.all(
                     events.Jet.metric_table(event_iso_lep) > 0.4,

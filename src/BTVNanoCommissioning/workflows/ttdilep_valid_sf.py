@@ -163,7 +163,7 @@ class NanoProcessor(processor.ProcessorABC):
 
         ## Jet cuts
         jetsel = ak.fill_none(
-            jet_id(events, self._campaign, min_pt=25)
+            jet_id(events, self._campaign, min_pt=20)
             & (
                 ak.all(
                     events.Jet.metric_table(events.Muon) > 0.4,

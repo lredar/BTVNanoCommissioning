@@ -190,7 +190,7 @@ class NanoProcessor(processor.ProcessorABC):
         )
         event_jet = events.Jet[
             ak.fill_none(
-                jet_id(events, self._campaign, min_pt=25) & pl_iso & nl_iso,
+                jet_id(events, self._campaign, min_pt=20) & pl_iso & nl_iso,
                 False,
                 axis=-1,
             )
